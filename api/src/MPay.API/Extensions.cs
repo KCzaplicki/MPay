@@ -13,4 +13,14 @@ internal static class Extensions
         SwaggerBuilderExtensions.UseSwagger(app);
         app.UseSwaggerUI();
     }
+
+    internal static void AddHealthCheck(this IServiceCollection services)
+    {
+        services.AddHealthChecks();
+    }
+
+    internal static void UseHealthCheck(this WebApplication app)
+    {
+        app.UseHealthChecks("/healthz");
+    }
 }

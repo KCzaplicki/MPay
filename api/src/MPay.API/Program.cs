@@ -1,5 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEntityFramework(builder.Configuration);
 builder.Services.AddSwagger();
 
 var app = builder.Build();

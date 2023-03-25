@@ -6,6 +6,8 @@ builder.Services.AddHealthCheck();
 
 var app = builder.Build();
 
+app.UseMigrations();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

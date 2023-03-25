@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,5 +14,12 @@ internal static class Extensions
     {
         services.AddDbContext<MPayDbContext>(
             options => options.UseSqlite(configuration.GetConnectionString("MPayConnectionString")));
+    }
+
+    public static void UseMigrations(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<MPayDbContext>();
+        dbContext.Database.Migrate();
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MPay.Core.Entities;
 using MPay.Core.Repository;
 
-namespace MPay.Core.DAL.Repositories;
+namespace MPay.Infrastructure.DAL.Repositories;
 
 internal class PurchaseRepository : IPurchaseRepository
 {

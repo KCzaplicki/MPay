@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MPay.Core.DAL.Migrations
+namespace MPay.Infrastructure.DAL.Migrations
 {
     /// <inheritdoc />
     public partial class Added_Purchase : Migration

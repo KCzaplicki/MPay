@@ -37,6 +37,6 @@ msbuild.wrn
 .vs/
 
 # Sqlite database
-.db
-.db-shm
-.db-wal
+*.db
+*.db-shm
+*.db-wal

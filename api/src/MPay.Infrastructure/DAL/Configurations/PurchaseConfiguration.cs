@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MPay.Core.Entities;
 
-namespace MPay.Core.DAL.Configurations;
+namespace MPay.Infrastructure.DAL.Configurations;
 
 internal class PurchaseConfiguration : IEntityTypeConfiguration<Purchase>
 {

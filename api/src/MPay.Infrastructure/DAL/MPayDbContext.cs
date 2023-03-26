@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MPay.Core.Entities;
 
-namespace MPay.Core.DAL;
+namespace MPay.Infrastructure.DAL;
 
 internal class MPayDbContext : DbContext
 {

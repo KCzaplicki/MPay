@@ -5,6 +5,7 @@ public class Purchase : BaseEntity
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
+    public string Currency { get; set; }
     public DateTime? CompletedAt { get; set; }
     public PurchaseStatus Status { get; set; }
 

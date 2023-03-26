@@ -20,6 +20,7 @@ internal class PurchaseService : IPurchaseService
         purchase.Id = Guid.NewGuid().ToString();
         purchase.CreatedAt = DateTime.UtcNow;
         purchase.Status = PurchaseStatus.Pending;
+        purchase.Currency = purchase.Currency.ToUpperInvariant();
 
         await _purchaseRepository.AddAsync(purchase);
 

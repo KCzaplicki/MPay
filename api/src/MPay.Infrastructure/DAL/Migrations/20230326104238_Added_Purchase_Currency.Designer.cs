@@ -3,6 +3,7 @@ using System;
 using MPay.Infrastructure.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MPay.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(MPayDbContext))]
-    partial class MPayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230326104238_Added_Purchase_Currency")]
+    partial class Added_Purchase_Currency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");

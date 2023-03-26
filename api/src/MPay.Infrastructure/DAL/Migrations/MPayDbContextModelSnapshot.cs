@@ -90,7 +90,7 @@ namespace MPay.Infrastructure.DAL.Migrations
 
                     b.HasIndex("PurchaseId");
 
-                    b.ToTable("PurchasePayment", (string)null);
+                    b.ToTable("PurchasePayments", (string)null);
                 });
 
             modelBuilder.Entity("MPay.Core.Entities.PurchasePayment", b =>

@@ -8,7 +8,7 @@ internal class PurchasePaymentConfiguration : IEntityTypeConfiguration<PurchaseP
 {
     public void Configure(EntityTypeBuilder<PurchasePayment> builder)
     {
-        builder.ToTable("PurchasePayment");
+        builder.ToTable("PurchasePayments");
         builder.Property(x => x.CardHolderName).IsRequired().HasMaxLength(200);
         builder.Property(x => x.CardExpiry).IsRequired();
         builder.Property(x => x.CardNumber).IsRequired().HasMaxLength(16);

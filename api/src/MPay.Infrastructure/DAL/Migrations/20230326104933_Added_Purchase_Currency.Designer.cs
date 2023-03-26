@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MPay.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(MPayDbContext))]
-    [Migration("20230326104238_Added_Purchase_Currency")]
+    [Migration("20230326104933_Added_Purchase_Currency")]
     partial class Added_Purchase_Currency
     {
         /// <inheritdoc />
@@ -93,7 +93,7 @@ namespace MPay.Infrastructure.DAL.Migrations
 
                     b.HasIndex("PurchaseId");
 
-                    b.ToTable("PurchasePayment", (string)null);
+                    b.ToTable("PurchasePayments", (string)null);
                 });
 
             modelBuilder.Entity("MPay.Core.Entities.PurchasePayment", b =>

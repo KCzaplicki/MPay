@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace MPay.Infrastructure.Exceptions;
+﻿namespace MPay.Infrastructure.Exceptions;
 
 public interface IExceptionMapper
 {

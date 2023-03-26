@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace MPay.API.Endpoints;
+﻿namespace MPay.API.Endpoints;
 
 internal static class PurchaseEndpoints
 {
@@ -8,25 +6,17 @@ internal static class PurchaseEndpoints
 
     internal static void MapPurchaseEndpoints(this WebApplication app)
     {
-        app.MapPost(BasePath, async (IPurchaseService purchaseService, IValidator<AddPurchaseDto> validator, 
-            AddPurchaseDto addPurchaseDto) =>
-        {
-            var validationResult = await validator.ValidateAsync(addPurchaseDto);
-            if (!validationResult.IsValid)
-            {
-                return Results.ValidationProblem(validationResult.ToDictionary());
-            }
+        var group = app.MapGroup(BasePath);
 
+        group.MapPost("/", async (IPurchaseService purchaseService, AddPurchaseDto addPurchaseDto) =>
+        {
             var id = await purchaseService.AddAsync(addPurchaseDto);
 
-            return Results.Created($"{BasePath}/{id}", id);
-        });
+            return TypedResults.Created($"{BasePath}/{id}", id);
+        })
+        .AddEndpointFilter<ValidationEndpointFilter>();
 
-        app.MapGet($"{BasePath}/{{id}}", async (IPurchaseService purchaseService, string id) =>
-        {
-            var purchase = await purchaseService.GetPendingAsync(id);
-            
-            return Results.Ok(purchase);
-        });
+        group.MapGet("/{id}", async (IPurchaseService purchaseService, string id) 
+            => TypedResults.Ok(await purchaseService.GetPendingAsync(id)));
     }
 }

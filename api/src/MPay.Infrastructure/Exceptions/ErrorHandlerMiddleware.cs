@@ -1,17 +1,9 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace MPay.Infrastructure.Exceptions;
 
 internal class ErrorHandlerMiddleware : IMiddleware
 {
-    private static readonly JsonSerializerOptions SerializerOptions = new()
-    {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    };
-
     private readonly IExceptionMapper _mapper;
 
     public ErrorHandlerMiddleware(IExceptionMapper mapper)
@@ -37,6 +29,6 @@ internal class ErrorHandlerMiddleware : IMiddleware
         var errorDetails = _mapper.Map(exception);
         response.StatusCode = errorDetails.Status.Value;
         
-        await response.WriteAsJsonAsync(errorDetails, SerializerOptions);
+        await response.WriteAsJsonAsync(errorDetails);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MPay.Core.DTO;
 
 namespace MPay.API.Endpoints;
 

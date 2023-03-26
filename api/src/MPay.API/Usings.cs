@@ -4,3 +4,4 @@ global using MPay.Core.DTO;
 global using MPay.Core.Services;
 global using MPay.Infrastructure;
 global using MPay.Infrastructure.DAL;
+global using MPay.Infrastructure.Exceptions;

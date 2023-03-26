@@ -13,39 +13,37 @@ internal class ExceptionMapper : IExceptionMapper
 
     private static readonly ConcurrentDictionary<string, string> ErrorCodes = new();
 
-    public ProblemDetails Map(Exception exception)
-    {
-        string errorCode, message;
-
-        if (exception is MPayException mPayException)
+    public ErrorDetails Map(Exception exception) 
+        => new()
         {
-            errorCode = MapToErrorCode(mPayException.GetType().Name);
-            message = mPayException.Message;
-        }
-        else
-        {
-            errorCode = InternalServerErrorCode;
-            message = InternalServerErrorMessage;
-        }
+            Title = MapToTitle(exception),
+            ErrorCode = MapToErrorCode(exception),
+            Status = MapToStatusCode(exception)
+        };
 
-        var statusCode = exception switch
+    private static int MapToStatusCode(Exception exception) 
+        => exception switch
         {
             MPayException e when IsNotFoundException(e) => StatusCodes.Status404NotFound,
             MPayException _ => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
 
-        return new ProblemDetails
-        {
-            Title = errorCode,
-            Detail = message,
-            Status = statusCode
-        };
-    }
-
     private static bool IsNotFoundException(MPayException exception)
         => exception.GetType().Name.ToUpperInvariant().EndsWith("NOTFOUNDEXCEPTION");
 
-    private static string MapToErrorCode(string exceptionName) 
-        => ErrorCodes.GetOrAdd(exceptionName, exceptionName.Underscore().Replace("_exception", string.Empty).ToUpperInvariant());
+    private static string MapToTitle(Exception exception)
+        => exception is MPayException mPayException ? mPayException.Message : InternalServerErrorMessage;
+
+    private static string MapToErrorCode(Exception exception)
+    {
+        if (exception is not MPayException)
+        {
+            return InternalServerErrorCode;
+        }
+
+        var exceptionName = exception.GetType().Name;
+        return ErrorCodes.GetOrAdd(exceptionName,
+            exceptionName.Underscore().Replace("_exception", string.Empty).ToUpperInvariant());
+    }
 }

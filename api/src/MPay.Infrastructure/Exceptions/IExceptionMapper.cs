@@ -4,5 +4,5 @@ namespace MPay.Infrastructure.Exceptions;
 
 public interface IExceptionMapper
 {
-    ProblemDetails Map(Exception exception);
+    ErrorDetails Map(Exception exception);
 }

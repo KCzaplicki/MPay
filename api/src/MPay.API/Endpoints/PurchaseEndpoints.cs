@@ -18,5 +18,11 @@ internal static class PurchaseEndpoints
 
         group.MapGet("/{id}", async (IPurchaseService purchaseService, string id) 
             => TypedResults.Ok(await purchaseService.GetPendingAsync(id)));
+
+        group.MapPost("/{id}/cancel", async (IPurchaseService purchaseService, string id) =>
+        {
+            await purchaseService.CancelPurchaseAsync(id);
+            return TypedResults.NoContent();
+        });
     }
 }

@@ -42,4 +42,24 @@ internal class PurchaseService : IPurchaseService
 
         return _mapper.Map<PurchaseDto>(purchase);
     }
+
+    public async Task CancelPurchaseAsync(string id)
+    {
+        var purchase = await _purchaseRepository.GetAsync(id);
+
+        if (purchase is null)
+        {
+            throw new PurchaseNotFoundException(id);
+        }
+
+        if (purchase.Status != PurchaseStatus.Pending)
+        {
+            return;
+        }
+
+        purchase.Status = PurchaseStatus.Cancelled;
+        purchase.CompletedAt = DateTime.UtcNow;
+
+        await _purchaseRepository.UpdateAsync(purchase);
+    }
 }

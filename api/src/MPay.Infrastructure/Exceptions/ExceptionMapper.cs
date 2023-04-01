@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using MPay.Core.Exceptions;
 using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace MPay.Infrastructure.Exceptions;
 
@@ -17,8 +18,22 @@ internal class ExceptionMapper : IExceptionMapper
         {
             Title = MapToTitle(exception),
             ErrorCode = MapToErrorCode(exception),
-            Status = MapToStatusCode(exception)
+            Status = MapToStatusCode(exception),
+            Data = MapToData(exception)
         };
+
+    private Dictionary<string, object> MapToData(Exception exception)
+    {
+        if (exception is MPayException)
+        {
+            return exception.GetType()
+                            .GetProperties()
+                            .Where(p => p.DeclaringType != typeof(Exception))
+                            .ToDictionary(p => p.Name.Camelize(), p => p.GetValue(exception));
+        }
+
+        return null;
+    }
 
     private static int MapToStatusCode(Exception exception) 
         => exception switch

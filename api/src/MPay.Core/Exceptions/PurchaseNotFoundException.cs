@@ -2,7 +2,7 @@
 
 public class PurchaseNotFoundException : MPayException
 {
-    public string Id { get; init; }
+    public string Id { get; }
 
     public PurchaseNotFoundException(string id) : base($"Purchase with id '{id}' not found.")
     {

@@ -46,6 +46,7 @@ internal static class Extensions
             options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.SerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
             options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
     }
 

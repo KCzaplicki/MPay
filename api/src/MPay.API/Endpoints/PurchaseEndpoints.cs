@@ -23,5 +23,13 @@ internal static class PurchaseEndpoints
             await purchaseService.CancelPurchaseAsync(id);
             return TypedResults.NoContent();
         });
+
+        group.MapPost("/{id}/payment", 
+            async (IPurchasePaymentService purchasePaymentService, string id, PurchasePaymentDto purchasePaymentDto) =>
+        {
+            await purchasePaymentService.ProcessPaymentAsync(id, purchasePaymentDto);
+            return TypedResults.Ok();
+        })
+        .AddEndpointFilter<ValidationEndpointFilter>();
     }
 }

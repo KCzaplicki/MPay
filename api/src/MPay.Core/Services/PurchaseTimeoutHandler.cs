@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using MPay.Core.Policies;
+using MPay.Core.Policies.PurchaseTimeout;
 using MPay.Core.Repository;
 
 namespace MPay.Core.Services;

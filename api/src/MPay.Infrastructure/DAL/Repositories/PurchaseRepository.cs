@@ -14,7 +14,7 @@ internal class PurchaseRepository : IPurchaseRepository
         _context = context;
         _purchases = context.Purchases;
     }
-
+    
     public async Task AddAsync(Purchase purchase)
     {
         await _purchases.AddAsync(purchase);

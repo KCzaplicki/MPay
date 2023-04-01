@@ -9,5 +9,5 @@ public class ErrorDetails : ProblemDetails
     public string ErrorCode { get; init; }
 
     [JsonPropertyName("data")]
-    public Dictionary<string, object> Data { get; set; }
+    public IDictionary<string, object> Data { get; set; }
 }

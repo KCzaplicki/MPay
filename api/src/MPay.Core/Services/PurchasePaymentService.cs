@@ -7,18 +7,20 @@ namespace MPay.Core.Services;
 internal class PurchasePaymentService : IPurchasePaymentService
 {
     private readonly IPurchaseRepository _purchaseRepository;
+    private readonly IPurchasePaymentRepository _purchasePaymentRepository;
     private readonly IEnumerable<IPurchasePaymentStatusPolicy> _purchasePaymentStatusPolicies;
     private readonly IPurchasePaymentFactory _purchasePaymentFactory;
 
-    public PurchasePaymentService(IPurchaseRepository purchaseRepository, IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies, 
-        IPurchasePaymentFactory purchasePaymentFactory)
+    public PurchasePaymentService(IPurchaseRepository purchaseRepository, IPurchasePaymentRepository purchasePaymentRepository,
+        IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies, IPurchasePaymentFactory purchasePaymentFactory)
     {
         _purchaseRepository = purchaseRepository;
+        _purchasePaymentRepository = purchasePaymentRepository;
         _purchasePaymentStatusPolicies = purchasePaymentStatusPolicies;
         _purchasePaymentFactory = purchasePaymentFactory;
     }
 
-    public async Task ProcessPaymentAsync(string id, PurchasePaymentDto purchasePaymentDto)
+    public async Task<PurchasePaymentResultDto> ProcessPaymentAsync(string id, PurchasePaymentDto purchasePaymentDto)
     {
         var purchase = await _purchaseRepository.GetAsync(id);
 
@@ -42,18 +44,15 @@ internal class PurchasePaymentService : IPurchasePaymentService
             throw new PurchasePaymentNotProcessedException(purchasePayment.PurchaseId, purchasePayment.Id);
         }
 
+        await _purchasePaymentRepository.AddAsync(purchasePayment);
+
         if (purchasePayment.Status == PurchasePaymentStatus.Completed)
         {
             purchase.CompletedAt = purchasePayment.CreatedAt;
             purchase.Status = PurchaseStatus.Completed;
+            await _purchaseRepository.UpdateAsync(purchase);
         }
 
-        purchase.Payments.Add(purchasePayment);
-        await _purchaseRepository.UpdateAsync(purchase);
-
-        if (purchasePayment.Status != PurchasePaymentStatus.Completed)
-        {
-            throw new PurchasePaymentFailedException(purchasePayment.PurchaseId, purchasePayment.Id, purchasePayment.Status);
-        }
+        return new PurchasePaymentResultDto(purchase.Id, purchasePayment.Id, purchasePayment.Status);
     }
 }

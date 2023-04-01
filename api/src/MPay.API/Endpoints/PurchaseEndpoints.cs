@@ -1,4 +1,6 @@
-﻿namespace MPay.API.Endpoints;
+﻿using MPay.Infrastructure.DAL.UnitOfWork;
+
+namespace MPay.API.Endpoints;
 
 internal static class PurchaseEndpoints
 {
@@ -27,9 +29,10 @@ internal static class PurchaseEndpoints
         group.MapPost("/{id}/payment", 
             async (IPurchasePaymentService purchasePaymentService, string id, PurchasePaymentDto purchasePaymentDto) =>
         {
-            await purchasePaymentService.ProcessPaymentAsync(id, purchasePaymentDto);
-            return TypedResults.Ok();
+            var result = await purchasePaymentService.ProcessPaymentAsync(id, purchasePaymentDto);
+            return result.IsCompleted ? (IResult)TypedResults.Ok() : TypedResults.BadRequest(ErrorDetailsExtensions.MapFrom(result));
         })
-        .AddEndpointFilter<ValidationEndpointFilter>();
+        .AddEndpointFilter<ValidationEndpointFilter>()
+        .AddEndpointFilter<TransactionalEndpointFilter>();
     }
 }

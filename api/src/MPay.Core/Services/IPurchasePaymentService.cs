@@ -2,5 +2,5 @@
 
 public interface IPurchasePaymentService
 {
-    Task ProcessPaymentAsync(string id, PurchasePaymentDto purchasePaymentDto);
+    Task<PurchasePaymentResultDto> ProcessPaymentAsync(string id, PurchasePaymentDto purchasePaymentDto);
 }

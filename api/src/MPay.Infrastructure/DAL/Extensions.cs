@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MPay.Core.Repository;
 using MPay.Infrastructure.DAL.Repositories;
+using MPay.Infrastructure.DAL.UnitOfWork;
 
 namespace MPay.Infrastructure.DAL;
 
@@ -27,5 +28,11 @@ internal static class Extensions
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+        services.AddScoped<IPurchasePaymentRepository, PurchasePaymentRepository>();
+    }
+
+    public static void AddUnitOfWork(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
     }
 }

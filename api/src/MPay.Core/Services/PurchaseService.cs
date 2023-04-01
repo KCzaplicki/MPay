@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MPay.Core.Factories;
 using MPay.Core.Repository;
 
 namespace MPay.Core.Services;
@@ -6,23 +7,19 @@ namespace MPay.Core.Services;
 internal class PurchaseService : IPurchaseService
 {
     private readonly IPurchaseRepository _purchaseRepository;
+    private readonly IPurchaseFactory _purchaseFactory;
     private readonly IMapper _mapper;
 
-    public PurchaseService(IPurchaseRepository purchaseRepository, IMapper mapper)
+    public PurchaseService(IPurchaseRepository purchaseRepository, IPurchaseFactory purchaseFactory, IMapper mapper)
     {
         _purchaseRepository = purchaseRepository;
+        _purchaseFactory = purchaseFactory;
         _mapper = mapper;
     }
 
     public async Task<string> AddAsync(AddPurchaseDto addPurchaseDto)
     {
-        var purchase = _mapper.Map<Purchase>(addPurchaseDto);
-        purchase.Id = Guid.NewGuid().ToString();
-        purchase.CreatedAt = DateTime.UtcNow;
-        purchase.Status = PurchaseStatus.Pending;
-        purchase.Currency = purchase.Currency.ToUpperInvariant();
-        purchase.Payments = new List<PurchasePayment>();
-
+        var purchase = _purchaseFactory.Create(addPurchaseDto);
         await _purchaseRepository.AddAsync(purchase);
 
         return purchase.Id;

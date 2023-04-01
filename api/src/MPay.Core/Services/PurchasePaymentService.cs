@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using MPay.Core.Factories;
 using MPay.Core.Policies.PurchasePaymentStatus;
 using MPay.Core.Repository;
 
@@ -8,13 +8,14 @@ internal class PurchasePaymentService : IPurchasePaymentService
 {
     private readonly IPurchaseRepository _purchaseRepository;
     private readonly IEnumerable<IPurchasePaymentStatusPolicy> _purchasePaymentStatusPolicies;
-    private readonly IMapper _mapper;
+    private readonly IPurchasePaymentFactory _purchasePaymentFactory;
 
-    public PurchasePaymentService(IPurchaseRepository purchaseRepository, IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies, IMapper mapper)
+    public PurchasePaymentService(IPurchaseRepository purchaseRepository, IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies, 
+        IPurchasePaymentFactory purchasePaymentFactory)
     {
         _purchaseRepository = purchaseRepository;
         _purchasePaymentStatusPolicies = purchasePaymentStatusPolicies;
-        _mapper = mapper;
+        _purchasePaymentFactory = purchasePaymentFactory;
     }
 
     public async Task ProcessPaymentAsync(string id, PurchasePaymentDto purchasePaymentDto)
@@ -30,11 +31,7 @@ internal class PurchasePaymentService : IPurchasePaymentService
             throw new PurchaseStatusNotPendingException(id);
         }
 
-        var purchasePayment = _mapper.Map<PurchasePayment>(purchasePaymentDto);
-        purchasePayment.Id = Guid.NewGuid().ToString();
-        purchasePayment.PurchaseId = purchase.Id;
-        purchasePayment.CreatedAt = DateTime.UtcNow;
-
+        var purchasePayment = _purchasePaymentFactory.Create(purchase.Id, purchasePaymentDto);
         var purchasePaymentStatusPolicy = _purchasePaymentStatusPolicies
             .OrderByDescending(p => p.Priority)
             .FirstOrDefault(p => p.CanApply(purchasePayment));

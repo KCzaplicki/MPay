@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MPay.Core.Configurations;
+using MPay.Core.Factories;
 using MPay.Core.Policies.PurchasePaymentStatus;
 using MPay.Core.Policies.PurchaseTimeout;
 using MPay.Core.Validators;
@@ -12,6 +13,12 @@ namespace MPay.Core;
 
 internal static class Extensions
 {
+    public static void AddFactories(this IServiceCollection services)
+    {
+        services.AddScoped<IPurchaseFactory, PurchaseFactory>();
+        services.AddScoped<IPurchasePaymentFactory, PurchasePaymentFactory>();
+    }
+
     public static void AddValidators(this IServiceCollection services)
     {
         services.AddScoped<IValidator<AddPurchaseDto>, AddPurchaseValidator>();

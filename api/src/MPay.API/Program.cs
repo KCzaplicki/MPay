@@ -7,6 +7,7 @@ builder.Services.AddAutoMapper();
 builder.Services.AddSwagger();
 builder.Services.AddErrorHandling();
 builder.Services.AddHealthCheck();
+builder.Services.AddFactories();
 builder.Services.AddValidation();
 builder.Services.AddValidators();
 builder.Services.AddRepositories();

@@ -22,11 +22,14 @@ internal class PurchaseRepository : IPurchaseRepository
     }
 
     public Task<Purchase> GetAsync(string id)
-        => _purchases.FirstOrDefaultAsync(p => p.Id == id);
+        => _purchases.Include(p => p.Payments).FirstOrDefaultAsync(p => p.Id == id);
 
     public async Task UpdateAsync(Purchase purchase)
     {
         _purchases.Update(purchase);
         await  _context.SaveChangesAsync();
     }
+
+    public Task<List<Purchase>> GetPendingAsync()
+        => _purchases.Include(p => p.Payments).Where(p => p.Status == PurchaseStatus.Pending).ToListAsync();
 }

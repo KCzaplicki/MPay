@@ -3,7 +3,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MPay.Core.Configurations;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
 namespace MPay.Infrastructure;
@@ -46,4 +48,12 @@ internal static class Extensions
             options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
     }
+
+    public static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<PurchaseTimeoutOptions>(configuration.GetSection(GetOptionsSectionName<PurchaseTimeoutOptions>()));
+    }
+
+    private static string GetOptionsSectionName<T>()
+        => typeof(T).Name.Replace("Options", string.Empty);
 }

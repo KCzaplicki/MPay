@@ -21,6 +21,7 @@ internal class PurchaseService : IPurchaseService
         purchase.CreatedAt = DateTime.UtcNow;
         purchase.Status = PurchaseStatus.Pending;
         purchase.Currency = purchase.Currency.ToUpperInvariant();
+        purchase.Payments = new List<PurchasePayment>();
 
         await _purchaseRepository.AddAsync(purchase);
 
@@ -46,12 +47,11 @@ internal class PurchaseService : IPurchaseService
     public async Task CancelPurchaseAsync(string id)
     {
         var purchase = await _purchaseRepository.GetAsync(id);
-
+        
         if (purchase is null)
         {
             throw new PurchaseNotFoundException(id);
         }
-
         if (purchase.Status != PurchaseStatus.Pending)
         {
             return;

@@ -1,5 +1,8 @@
+
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.ConfigureOptions(builder.Configuration);
 builder.Services.ConfigureJson();
 builder.Services.AddEntityFramework(builder.Configuration);
 builder.Services.AddAutoMapper();
@@ -9,7 +12,9 @@ builder.Services.AddHealthCheck();
 builder.Services.AddValidation();
 builder.Services.AddValidators();
 builder.Services.AddRepositories();
+builder.Services.AddPolicies();
 builder.Services.AddServices();
+builder.Services.AddBackgroundServices();
 
 var app = builder.Build();
 

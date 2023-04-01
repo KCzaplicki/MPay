@@ -11,7 +11,6 @@ internal static class PurchaseEndpoints
         group.MapPost("/", async (IPurchaseService purchaseService, AddPurchaseDto addPurchaseDto) =>
         {
             var id = await purchaseService.AddAsync(addPurchaseDto);
-
             return TypedResults.Created($"{BasePath}/{id}", id);
         })
         .AddEndpointFilter<ValidationEndpointFilter>();

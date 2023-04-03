@@ -1,4 +1,4 @@
-﻿namespace MPay.Core.Exceptions;
+﻿namespace MPay.Abstractions.Exceptions;
 
 public abstract class MPayException : Exception
 {

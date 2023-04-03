@@ -1,4 +1,6 @@
-﻿namespace MPay.Core.Exceptions;
+﻿using MPay.Abstractions.Exceptions;
+
+namespace MPay.Core.Exceptions;
 
 public class PurchaseStatusNotPendingException : MPayException
 {

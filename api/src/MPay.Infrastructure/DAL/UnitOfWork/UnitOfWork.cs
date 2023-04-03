@@ -12,7 +12,7 @@ internal class UnitOfWork : IUnitOfWork
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
-        
+
         try
         {
             var result = await action();

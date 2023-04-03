@@ -1,4 +1,4 @@
-﻿namespace MPay.Core.Entities;
+﻿namespace MPay.Abstractions.Entities;
 
 public class BaseEntity
 {

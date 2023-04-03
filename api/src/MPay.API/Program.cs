@@ -2,6 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureOptions(builder.Configuration);
 builder.Services.ConfigureJson();
+builder.Services.AddCommon();
 builder.Services.AddEntityFramework(builder.Configuration);
 builder.Services.AddUnitOfWork();
 builder.Services.AddAutoMapper();

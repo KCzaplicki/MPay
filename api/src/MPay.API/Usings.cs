@@ -6,4 +6,3 @@ global using MPay.Infrastructure;
 global using MPay.Infrastructure.DAL;
 global using MPay.Infrastructure.Exceptions;
 global using MPay.Infrastructure.Validation;
-global using MPay.Infrastructure.Services;

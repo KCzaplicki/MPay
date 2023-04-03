@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using MPay.Abstractions.Common;
 
 namespace MPay.Core.Factories;
 
 internal class PurchasePaymentFactory : IPurchasePaymentFactory
 {
     private readonly IMapper _mapper;
+    private readonly IClock _clock;
 
-    public PurchasePaymentFactory(IMapper mapper)
+    public PurchasePaymentFactory(IMapper mapper, IClock clock)
     {
         _mapper = mapper;
+        _clock = clock;
     }
 
     public PurchasePayment Create(string purchaseId, PurchasePaymentDto purchasePaymentDto)
@@ -17,7 +20,7 @@ internal class PurchasePaymentFactory : IPurchasePaymentFactory
 
         purchasePayment.Id = Guid.NewGuid().ToString();
         purchasePayment.PurchaseId = purchaseId;
-        purchasePayment.CreatedAt = DateTime.UtcNow;
+        purchasePayment.CreatedAt = _clock.Now;
 
         return purchasePayment;
     }

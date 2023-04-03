@@ -3,15 +3,40 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MPay.Abstractions.Common;
 using MPay.Core.Configurations;
+using MPay.Core.Repository;
+using MPay.Infrastructure.Common;
+using MPay.Infrastructure.DAL.Repositories;
+using MPay.Infrastructure.DAL.UnitOfWork;
+using MPay.Infrastructure.DAL;
+using MPay.Infrastructure.Exceptions;
+using MPay.Infrastructure.Services;
+using MPay.Infrastructure.Validation;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
 namespace MPay.Infrastructure;
 
 internal static class Extensions
 {
+    internal static void AddCommon(this IServiceCollection services)
+    {
+        services.AddSingleton<IClock, UtcClock>();
+    }
+
+    internal static void AddValidation(this IServiceCollection services)
+    {
+        services.AddScoped<IValidationErrorMapper, ValidationErrorMapper>();
+    }
+
+    internal static void AddBackgroundServices(this IServiceCollection services)
+    {
+        services.AddHostedService<PurchaseTimeoutService>();
+    }
+
     internal static void AddSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
@@ -33,13 +58,13 @@ internal static class Extensions
     {
         app.UseHealthChecks("/healthz");
     }
-    
-    public static void AddAutoMapper(this IServiceCollection services)
+
+    internal static void AddAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }
 
-    public static void ConfigureJson(this IServiceCollection services)
+    internal static void ConfigureJson(this IServiceCollection services)
     {
         services.Configure<JsonOptions>(options =>
         {
@@ -50,7 +75,7 @@ internal static class Extensions
         });
     }
 
-    public static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
+    internal static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<PurchaseTimeoutOptions>(configuration.GetSection(GetOptionsSectionName<PurchaseTimeoutOptions>()));
     }

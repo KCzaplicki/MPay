@@ -1,39 +1,29 @@
-﻿using System.Runtime.CompilerServices;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using MPay.Core.Configurations;
 using MPay.Core.Factories;
 using MPay.Core.Policies.PurchasePaymentStatus;
 using MPay.Core.Policies.PurchaseTimeout;
+using MPay.Core.Services;
 using MPay.Core.Validators;
+using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
 namespace MPay.Core;
 
 internal static class Extensions
 {
-    public static void AddFactories(this IServiceCollection services)
+    internal static void AddFactories(this IServiceCollection services)
     {
         services.AddScoped<IPurchaseFactory, PurchaseFactory>();
         services.AddScoped<IPurchasePaymentFactory, PurchasePaymentFactory>();
     }
 
-    public static void AddValidators(this IServiceCollection services)
-    {
-        services.AddScoped<IValidator<AddPurchaseDto>, AddPurchaseValidator>();
-        services.AddScoped<IValidator<PurchasePaymentDto>, PurchasePaymentValidator>();
-    }
-
-    public static void AddPolicies(this IServiceCollection services)
+    internal static void AddPolicies(this IServiceCollection services)
     {
         // Purchase timeout policies
-        services.AddSingleton<IPurchaseTimeoutPolicy, PurchaseCreationTimeoutPolicy>(sp => 
-            new PurchaseCreationTimeoutPolicy(sp.GetRequiredService<IOptions<PurchaseTimeoutOptions>>().Value.PurchaseCreationTimeoutInMinutes));
-        services.AddSingleton<IPurchaseTimeoutPolicy, PurchaseLastPaymentTimeoutPolicy>(sp => 
-            new PurchaseLastPaymentTimeoutPolicy(sp.GetRequiredService<IOptions<PurchaseTimeoutOptions>>().Value.PurchaseLastPaymentTimeoutInMinutes));
-        services.AddSingleton<IPurchaseTimeoutPolicy, PurchaseWithPaymentsTimeoutPolicy>(sp =>
-            new PurchaseWithPaymentsTimeoutPolicy(sp.GetRequiredService<IOptions<PurchaseTimeoutOptions>>().Value.PurchaseWithPaymentsTimeoutInMinutes));
+        services.AddSingleton<IPurchaseTimeoutPolicy, PurchaseCreationTimeoutPolicy>();
+        services.AddSingleton<IPurchaseTimeoutPolicy, PurchaseLastPaymentTimeoutPolicy>();
+        services.AddSingleton<IPurchaseTimeoutPolicy, PurchaseWithPaymentsTimeoutPolicy>();
 
         // Purchase payment status policies
         services.AddSingleton<IPurchasePaymentStatusPolicy, PurchasePaymentStatusCompletePolicy>();
@@ -42,10 +32,16 @@ internal static class Extensions
         services.AddSingleton<IPurchasePaymentStatusPolicy, PurchasePaymentStatusTimeoutPolicy>();
     }
 
-    public static void AddServices(this IServiceCollection services)
+    internal static void AddServices(this IServiceCollection services)
     {
         services.AddScoped<IPurchaseTimeoutHandler, PurchaseTimeoutHandler>();
         services.AddScoped<IPurchaseService, PurchaseService>();
         services.AddScoped<IPurchasePaymentService, PurchasePaymentService>();
+    }
+
+    internal static void AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<AddPurchaseDto>, AddPurchaseValidator>();
+        services.AddScoped<IValidator<PurchasePaymentDto>, PurchasePaymentValidator>();
     }
 }

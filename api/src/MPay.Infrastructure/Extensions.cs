@@ -5,13 +5,28 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MPay.Core.Configurations;
+using Serilog;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
 namespace MPay.Infrastructure;
 
 internal static class Extensions
 {
+    internal static void AddLogger(this IHostBuilder hostBuilder, IConfiguration configuration)
+    {
+        Log.Logger = Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+        hostBuilder.UseSerilog();
+    }
+    
+    internal static void UseLogger(this WebApplication app)
+    {
+        app.UseSerilogRequestLogging();
+    }
+    
     internal static void AddSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();

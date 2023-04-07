@@ -17,4 +17,20 @@
     <ProjectReference Include="..\MPay.Infrastructure\MPay.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Logs\**" />
+  </ItemGroup>
+
 </Project>

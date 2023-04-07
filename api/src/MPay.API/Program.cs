@@ -1,5 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.AddLogger(builder.Configuration);
+
 builder.Services.ConfigureOptions(builder.Configuration);
 builder.Services.ConfigureJson();
 builder.Services.AddEntityFramework(builder.Configuration);
@@ -18,6 +20,7 @@ builder.Services.AddBackgroundServices();
 
 var app = builder.Build();
 
+app.UseLogger();
 app.UseMigrations();
 app.UseErrorHandling();
 

@@ -3,19 +3,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MPay.Abstractions.Common;
 using MPay.Core.Configurations;
-using MPay.Core.Repository;
 using MPay.Infrastructure.Common;
-using MPay.Infrastructure.DAL.Repositories;
-using MPay.Infrastructure.DAL.UnitOfWork;
-using MPay.Infrastructure.DAL;
-using MPay.Infrastructure.Exceptions;
 using MPay.Infrastructure.Services;
 using MPay.Infrastructure.Validation;
+using Serilog;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
 namespace MPay.Infrastructure;
@@ -37,6 +33,19 @@ internal static class Extensions
         services.AddHostedService<PurchaseTimeoutService>();
     }
 
+    internal static void AddLogger(this IHostBuilder hostBuilder, IConfiguration configuration)
+    {
+        Log.Logger = Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+        hostBuilder.UseSerilog();
+    }
+    
+    internal static void UseLogger(this WebApplication app)
+    {
+        app.UseSerilogRequestLogging();
+    }
+    
     internal static void AddSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
@@ -58,13 +67,13 @@ internal static class Extensions
     {
         app.UseHealthChecks("/healthz");
     }
-
-    internal static void AddAutoMapper(this IServiceCollection services)
+    
+    public static void AddAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }
 
-    internal static void ConfigureJson(this IServiceCollection services)
+    public static void ConfigureJson(this IServiceCollection services)
     {
         services.Configure<JsonOptions>(options =>
         {
@@ -75,7 +84,7 @@ internal static class Extensions
         });
     }
 
-    internal static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<PurchaseTimeoutOptions>(configuration.GetSection(GetOptionsSectionName<PurchaseTimeoutOptions>()));
     }

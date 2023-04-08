@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MPay.Abstractions.Common;
 using MPay.Core.Factories;
 using MPay.Core.Repository;
 
@@ -9,12 +10,14 @@ internal class PurchaseService : IPurchaseService
     private readonly IPurchaseRepository _purchaseRepository;
     private readonly IPurchaseFactory _purchaseFactory;
     private readonly IMapper _mapper;
+    private readonly IClock _clock;
 
-    public PurchaseService(IPurchaseRepository purchaseRepository, IPurchaseFactory purchaseFactory, IMapper mapper)
+    public PurchaseService(IPurchaseRepository purchaseRepository, IPurchaseFactory purchaseFactory, IMapper mapper, IClock clock)
     {
         _purchaseRepository = purchaseRepository;
         _purchaseFactory = purchaseFactory;
         _mapper = mapper;
+        _clock = clock;
     }
 
     public async Task<string> AddAsync(AddPurchaseDto addPurchaseDto)
@@ -55,7 +58,7 @@ internal class PurchaseService : IPurchaseService
         }
 
         purchase.Status = PurchaseStatus.Cancelled;
-        purchase.CompletedAt = DateTime.UtcNow;
+        purchase.CompletedAt = _clock.Now;
 
         await _purchaseRepository.UpdateAsync(purchase);
     }

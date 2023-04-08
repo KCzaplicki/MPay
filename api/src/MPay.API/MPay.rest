@@ -1,0 +1,67 @@
+@url = https://localhost:5050
+@id = {{createPurchase.response.body.$}}
+
+### Home
+GET {{url}}
+
+### Create purchase
+# @name createPurchase
+POST {{url}}/purchases
+Content-Type: application/json
+
+{
+    "name": "Payment",
+    "description": "Description",
+    "price": 100.00,
+    "currency": "EUR"
+}
+
+### Get purchase
+GET {{url}}/purchases/{{id}}
+
+### Cancel purchase
+POST {{url}}/purchases/{{id}}/cancel
+
+### Purchase payment
+POST {{url}}/purchases/{{id}}/payment
+Content-Type: application/json
+
+{
+    "cardHolderName": "John Doe",
+    "cardNumber": 4024007118196624,
+    "ccv": 123,
+    "cardExpiry": "2028-01-01T00:00:00.000000"
+}
+
+### Purchase payment with invalid card
+POST {{url}}/purchases/{{id}}/payment
+Content-Type: application/json
+
+{
+    "cardHolderName": "John Doe",
+    "cardNumber": 4024007118196621,
+    "ccv": 123,
+    "cardExpiry": "2028-01-01T00:00:00.000000"
+}
+
+### Purchase payment with no founds
+POST {{url}}/purchases/{{id}}/payment
+Content-Type: application/json
+
+{
+    "cardHolderName": "John Doe",
+    "cardNumber": 4024007118196622,
+    "ccv": 123,
+    "cardExpiry": "2028-01-01T00:00:00.000000"
+}
+
+### Purchase payment with timeout
+POST {{url}}/purchases/{{id}}/payment
+Content-Type: application/json
+
+{
+    "cardHolderName": "John Doe",
+    "cardNumber": 4024007118196623,
+    "ccv": 123,
+    "cardExpiry": "2028-01-01T00:00:00.000000"
+}

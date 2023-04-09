@@ -8,6 +8,8 @@ using MPay.Core.Validators;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
+[assembly: InternalsVisibleTo("MPay.Core.Tests")]
+[assembly: InternalsVisibleTo("MPay.Tests.Shared")]
 namespace MPay.Core;
 
 internal static class Extensions

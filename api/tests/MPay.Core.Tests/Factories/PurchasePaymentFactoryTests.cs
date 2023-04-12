@@ -1,3 +1,4 @@
+using MPay.Core.DTO;
 using MPay.Core.Factories;
 
 namespace MPay.Core.Tests.Factories;
@@ -9,7 +10,7 @@ public class PurchasePaymentFactoryTests
     {
         // Arrange
         var purchaseId = Guid.NewGuid().ToString();
-        var purchasePaymentDto = new PurchasePaymentDtoFake().Generate();
+        var purchasePaymentDto = AutoFaker.Generate<PurchasePaymentDto, PurchasePaymentDtoFake>();
         var mapper = MapperFactory.Create();
         var mockClock = MockClockFactory.Create();
         var purchasePaymentFactory = new PurchasePaymentFactory(mapper, mockClock.Object);

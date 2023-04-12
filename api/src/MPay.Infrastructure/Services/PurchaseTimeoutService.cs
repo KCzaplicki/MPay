@@ -32,8 +32,6 @@ internal class PurchaseTimeoutService : BackgroundService
         while (true)
         {
             await Task.Delay(TimeSpan.FromSeconds(_options.IntervalInSeconds), stoppingToken);
-
-            _logger.LogInformation("Purchase timeout service is executing.");
             await purchaseTimeoutHandler.ExecuteAsync();
             
             if (stoppingToken.IsCancellationRequested)

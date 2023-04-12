@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MPay.Abstractions.Common;
+using MPay.Abstractions.Events;
+using MPay.Core.Events;
 using MPay.Core.Factories;
 using MPay.Core.Repository;
 
@@ -9,13 +11,15 @@ internal class PurchaseService : IPurchaseService
 {
     private readonly IPurchaseRepository _purchaseRepository;
     private readonly IPurchaseFactory _purchaseFactory;
+    private readonly IAsyncEventDispatcher _asyncEventDispatcher;
     private readonly IMapper _mapper;
     private readonly IClock _clock;
 
-    public PurchaseService(IPurchaseRepository purchaseRepository, IPurchaseFactory purchaseFactory, IMapper mapper, IClock clock)
+    public PurchaseService(IPurchaseRepository purchaseRepository, IPurchaseFactory purchaseFactory, IAsyncEventDispatcher asyncEventDispatcher, IMapper mapper, IClock clock)
     {
         _purchaseRepository = purchaseRepository;
         _purchaseFactory = purchaseFactory;
+        _asyncEventDispatcher = asyncEventDispatcher;
         _mapper = mapper;
         _clock = clock;
     }
@@ -24,6 +28,8 @@ internal class PurchaseService : IPurchaseService
     {
         var purchase = _purchaseFactory.Create(addPurchaseDto);
         await _purchaseRepository.AddAsync(purchase);
+        
+        _asyncEventDispatcher.PublishAsync(new PurchaseCreated(purchase.Id, purchase.CreatedAt));
 
         return purchase.Id;
     }
@@ -59,6 +65,8 @@ internal class PurchaseService : IPurchaseService
 
         purchase.Status = PurchaseStatus.Cancelled;
         purchase.CompletedAt = _clock.Now;
+        
+        _asyncEventDispatcher.PublishAsync(new PurchaseCompleted(purchase.Id, purchase.CompletedAt.Value));
 
         await _purchaseRepository.UpdateAsync(purchase);
     }

@@ -7,8 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MPay.Abstractions.Common;
+using MPay.Abstractions.Events;
 using MPay.Core.Configurations;
+using MPay.Core.Events;
 using MPay.Infrastructure.Common;
+using MPay.Infrastructure.Events;
+using MPay.Infrastructure.Events.Handlers;
 using MPay.Infrastructure.Services;
 using MPay.Infrastructure.Validation;
 using Serilog;
@@ -21,6 +25,18 @@ internal static class Extensions
     internal static void AddCommon(this IServiceCollection services)
     {
         services.AddSingleton<IClock, UtcClock>();
+    }
+
+    internal static void AddEvents(this IServiceCollection services)
+    {
+        services.AddSingleton<IAsyncEventDispatcher, AsyncEventDispatcher>();
+        services.AddSingleton<IEventChannel, EventChannel>();
+        services.AddHostedService<BackgroundDispatcherService>();
+        
+        services.AddScoped<IEventHandler<PurchaseCreated>, PurchaseCreatedHandler>();
+        services.AddScoped<IEventHandler<PurchaseCancelled>, PurchaseCancelledHandler>();
+        services.AddScoped<IEventHandler<PurchaseTimeout>, PurchaseTimeoutHandler>();
+        services.AddScoped<IEventHandler<PurchaseCompleted>, PurchaseCompletedHandler>();
     }
 
     internal static void AddValidation(this IServiceCollection services)

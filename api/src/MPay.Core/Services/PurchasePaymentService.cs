@@ -1,4 +1,6 @@
-﻿using MPay.Core.Factories;
+﻿using MPay.Abstractions.Events;
+using MPay.Core.Events;
+using MPay.Core.Factories;
 using MPay.Core.Policies.PurchasePaymentStatus;
 using MPay.Core.Repository;
 
@@ -10,14 +12,16 @@ internal class PurchasePaymentService : IPurchasePaymentService
     private readonly IPurchasePaymentRepository _purchasePaymentRepository;
     private readonly IEnumerable<IPurchasePaymentStatusPolicy> _purchasePaymentStatusPolicies;
     private readonly IPurchasePaymentFactory _purchasePaymentFactory;
+    private readonly IAsyncEventDispatcher _asyncEventDispatcher;
 
     public PurchasePaymentService(IPurchaseRepository purchaseRepository, IPurchasePaymentRepository purchasePaymentRepository,
-        IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies, IPurchasePaymentFactory purchasePaymentFactory)
+        IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies, IPurchasePaymentFactory purchasePaymentFactory, IAsyncEventDispatcher asyncEventDispatcher)
     {
         _purchaseRepository = purchaseRepository;
         _purchasePaymentRepository = purchasePaymentRepository;
         _purchasePaymentStatusPolicies = purchasePaymentStatusPolicies;
         _purchasePaymentFactory = purchasePaymentFactory;
+        _asyncEventDispatcher = asyncEventDispatcher;
     }
 
     public async Task<PurchasePaymentResultDto> ProcessPaymentAsync(string id, PurchasePaymentDto purchasePaymentDto)
@@ -51,6 +55,8 @@ internal class PurchasePaymentService : IPurchasePaymentService
             purchase.CompletedAt = purchasePayment.CreatedAt;
             purchase.Status = PurchaseStatus.Completed;
             await _purchaseRepository.UpdateAsync(purchase);
+            
+            _asyncEventDispatcher.PublishAsync(new PurchaseCompleted(purchase.Id, purchase.CompletedAt.Value));
         }
 
         return new PurchasePaymentResultDto(purchase.Id, purchasePayment.Id, purchasePayment.Status);

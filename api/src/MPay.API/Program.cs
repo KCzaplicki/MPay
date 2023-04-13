@@ -11,6 +11,7 @@ builder.Services.AddAutoMapper();
 builder.Services.AddSwagger();
 builder.Services.AddErrorHandling();
 builder.Services.AddHealthCheck();
+builder.Services.AddWebhooks(builder.Configuration);
 builder.Services.AddEvents();
 builder.Services.AddFactories();
 builder.Services.AddValidation();

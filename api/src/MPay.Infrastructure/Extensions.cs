@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using MPay.Abstractions.Common;
 using MPay.Abstractions.Events;
 using MPay.Core.Configurations;
@@ -15,6 +16,7 @@ using MPay.Infrastructure.Events;
 using MPay.Infrastructure.Events.Handlers;
 using MPay.Infrastructure.Services;
 using MPay.Infrastructure.Validation;
+using MPay.Infrastructure.Webhooks;
 using Serilog;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
@@ -25,6 +27,17 @@ internal static class Extensions
     internal static void AddCommon(this IServiceCollection services)
     {
         services.AddSingleton<IClock, UtcClock>();
+    }
+
+    internal static void AddWebhooks(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<WebhooksOptions>(configuration.GetSection(GetOptionsSectionName<WebhooksOptions>()));
+        services.AddHttpClient("WebhookClient", (serviceProvider, client) =>
+        {
+            var options = serviceProvider.GetService<IOptions<WebhooksOptions>>();
+            client.BaseAddress = new Uri(options.Value.Url);
+        });
+        services.AddScoped<IWebhookClient, WebhookClient>();
     }
 
     internal static void AddEvents(this IServiceCollection services)

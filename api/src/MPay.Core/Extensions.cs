@@ -6,6 +6,9 @@ using MPay.Core.Policies.PurchaseTimeout;
 using MPay.Core.Services;
 using MPay.Core.Validators;
 using System.Runtime.CompilerServices;
+using MPay.Abstractions.Events;
+using MPay.Core.Events;
+using MPay.Core.Events.Handlers;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
 [assembly: InternalsVisibleTo("MPay.Core.Tests")]
@@ -36,7 +39,7 @@ internal static class Extensions
 
     internal static void AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IPurchaseTimeoutHandler, PurchaseTimeoutHandler>();
+        services.AddScoped<IPurchaseTimeoutHandler, Services.PurchaseTimeoutHandler>();
         services.AddScoped<IPurchaseService, PurchaseService>();
         services.AddScoped<IPurchasePaymentService, PurchasePaymentService>();
     }
@@ -45,5 +48,13 @@ internal static class Extensions
     {
         services.AddScoped<IValidator<AddPurchaseDto>, AddPurchaseValidator>();
         services.AddScoped<IValidator<PurchasePaymentDto>, PurchasePaymentValidator>();
+    }
+    
+    internal static void AddEvents(this IServiceCollection services)
+    {
+        services.AddScoped<IEventHandler<PurchaseCreated>, PurchaseCreatedHandler>();
+        services.AddScoped<IEventHandler<PurchaseCancelled>, PurchaseCancelledHandler>();
+        services.AddScoped<IEventHandler<PurchaseTimeout>, Events.Handlers.PurchaseTimeoutHandler>();
+        services.AddScoped<IEventHandler<PurchaseCompleted>, PurchaseCompletedHandler>();
     }
 }

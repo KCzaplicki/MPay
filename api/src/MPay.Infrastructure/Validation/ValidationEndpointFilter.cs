@@ -40,7 +40,7 @@ internal class ValidationEndpointFilter : IEndpointFilter
     private static ValidationResult Validate(object validator, object parameter)
     {
         var validatorGenericType = typeof(IValidator<>).MakeGenericType(parameter.GetType());
-        var validateMethodInfo = validatorGenericType.GetMethod("Validate");
+        var validateMethodInfo = validatorGenericType.GetMethod(nameof(IValidator<object>.Validate));
         var result = validateMethodInfo.Invoke(validator, new[] { parameter });
 
         return result as ValidationResult;

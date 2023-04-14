@@ -1,10 +1,9 @@
 using Microsoft.Extensions.Logging;
 using MPay.Abstractions.Events;
-using MPay.Core.Events;
 using MPay.Infrastructure.Webhooks;
 using MPay.Infrastructure.Webhooks.Payloads;
 
-namespace MPay.Infrastructure.Events.Handlers;
+namespace MPay.Core.Events.Handlers;
 
 internal class PurchaseTimeoutHandler : IEventHandler<PurchaseTimeout>
 {
@@ -21,7 +20,7 @@ internal class PurchaseTimeoutHandler : IEventHandler<PurchaseTimeout>
     {
         _logger.LogInformation($"Purchase timeout event handled. Purchase Id: '{@event.Id}'.");
         
-        var succeeded = await _webhookClient.SendAsync(new PurchaseUpdateResult(@event.Id, PurchaseUpdateStatus.Timeout, @event.TimeoutAt));
+        var succeeded = await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Timeout, @event.TimeoutAt));
         
         _logger.LogInformation($"Purchase timeout event handled. Purchase Id: '{@event.Id}'. Webhook request succeeded: '{succeeded}'.");
     }

@@ -10,10 +10,8 @@ using Microsoft.Extensions.Options;
 using MPay.Abstractions.Common;
 using MPay.Abstractions.Events;
 using MPay.Core.Configurations;
-using MPay.Core.Events;
 using MPay.Infrastructure.Common;
 using MPay.Infrastructure.Events;
-using MPay.Infrastructure.Events.Handlers;
 using MPay.Infrastructure.Services;
 using MPay.Infrastructure.Validation;
 using MPay.Infrastructure.Webhooks;
@@ -40,19 +38,14 @@ internal static class Extensions
         services.AddScoped<IWebhookClient, WebhookClient>();
     }
 
-    internal static void AddEvents(this IServiceCollection services)
+    internal static void AddEventsBackgroundHandling(this IServiceCollection services)
     {
         services.AddSingleton<IAsyncEventDispatcher, AsyncEventDispatcher>();
         services.AddSingleton<IEventChannel, EventChannel>();
         services.AddHostedService<BackgroundDispatcherService>();
-        
-        services.AddScoped<IEventHandler<PurchaseCreated>, PurchaseCreatedHandler>();
-        services.AddScoped<IEventHandler<PurchaseCancelled>, PurchaseCancelledHandler>();
-        services.AddScoped<IEventHandler<PurchaseTimeout>, PurchaseTimeoutHandler>();
-        services.AddScoped<IEventHandler<PurchaseCompleted>, PurchaseCompletedHandler>();
     }
 
-    internal static void AddValidation(this IServiceCollection services)
+    internal static void AddValidationErrorsHandling(this IServiceCollection services)
     {
         services.AddScoped<IValidationErrorMapper, ValidationErrorMapper>();
     }

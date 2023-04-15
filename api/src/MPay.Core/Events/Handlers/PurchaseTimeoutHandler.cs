@@ -19,9 +19,7 @@ internal class PurchaseTimeoutHandler : IEventHandler<PurchaseTimeout>
     public async Task HandleAsync(PurchaseTimeout @event)
     {
         _logger.LogInformation($"Purchase timeout event handled. Purchase Id: '{@event.Id}'.");
-        
-        var succeeded = await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Timeout, @event.TimeoutAt));
-        
-        _logger.LogInformation($"Purchase timeout event handled. Purchase Id: '{@event.Id}'. Webhook request succeeded: '{succeeded}'.");
+        await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Timeout, @event.TimeoutAt));
+        _logger.LogInformation($"Purchase timeout event handled. Purchase Id: '{@event.Id}'.");
     }
 }

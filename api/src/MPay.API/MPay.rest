@@ -1,8 +1,14 @@
 @url = https://localhost:5050
 @id = {{createPurchase.response.body.$}}
 
-### Home
+### API Footprint
 GET {{url}}
+
+### Configuration
+GET {{url}}/configuration
+
+### Healthcheck
+GET {{url}}/healthz
 
 ### Create purchase
 # @name createPurchase

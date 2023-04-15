@@ -9,9 +9,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MPay.Abstractions.Common;
 using MPay.Abstractions.Events;
+using MPay.Abstractions.FeatureFlags;
 using MPay.Core.Configurations;
 using MPay.Infrastructure.Common;
 using MPay.Infrastructure.Events;
+using MPay.Infrastructure.FeatureFlags;
 using MPay.Infrastructure.Services;
 using MPay.Infrastructure.Validation;
 using MPay.Infrastructure.Webhooks;
@@ -27,6 +29,12 @@ internal static class Extensions
         services.AddSingleton<IClock, UtcClock>();
     }
 
+    internal static void AddFeatureFlags(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<FeatureFlagsOptions>(configuration.GetSection(GetOptionsSectionName<FeatureFlagsOptions>()));
+        services.AddScoped<IFeatureFlagsService, FeatureFlagsService>();
+    }
+    
     internal static void AddWebhooks(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<WebhooksOptions>(configuration.GetSection(GetOptionsSectionName<WebhooksOptions>()));

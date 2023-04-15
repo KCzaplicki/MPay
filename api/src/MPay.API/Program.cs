@@ -5,6 +5,7 @@ builder.Host.AddLogger(builder.Configuration);
 builder.Services.ConfigureOptions(builder.Configuration);
 builder.Services.ConfigureJson();
 builder.Services.AddCommon();
+builder.Services.AddFeatureFlags(builder.Configuration);
 builder.Services.AddEntityFramework(builder.Configuration);
 builder.Services.AddUnitOfWork();
 builder.Services.AddAutoMapper();
@@ -34,7 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHealthCheck();
-app.MapHomeEndpoints();
+app.MapAPIEndpoints();
 app.MapPurchaseEndpoints();
 
 app.Run();

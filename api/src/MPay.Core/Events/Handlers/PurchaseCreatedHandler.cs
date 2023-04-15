@@ -19,9 +19,7 @@ internal class PurchaseCreatedHandler : IEventHandler<PurchaseCreated>
     public async Task HandleAsync(PurchaseCreated @event)
     {
         _logger.LogInformation($"Handling purchase created event. Purchase Id: '{@event.Id}'.");
-        
-        var succeeded = await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Created, @event.CreatedAt));
-        
-        _logger.LogInformation($"Purchase created event handled. Purchase Id: '{@event.Id}'. Webhook request succeeded: '{succeeded}'.");
+        await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Created, @event.CreatedAt));
+        _logger.LogInformation($"Purchase created event handled. Purchase Id: '{@event.Id}'.");
     }
 }

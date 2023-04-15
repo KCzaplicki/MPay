@@ -19,9 +19,7 @@ internal class PurchaseCancelledHandler : IEventHandler<PurchaseCancelled>
     public async Task HandleAsync(PurchaseCancelled @event)
     {
         _logger.LogInformation($"Purchase cancelled event handled. Purchase Id: '{@event.Id}'.");
-        
-        var succeeded = await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Cancelled, @event.CancelledAt));
-        
-        _logger.LogInformation($"Purchase cancelled event handled. Purchase Id: '{@event.Id}'. Webhook request succeeded: '{succeeded}'.");
+        await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Cancelled, @event.CancelledAt));
+        _logger.LogInformation($"Purchase cancelled event handled. Purchase Id: '{@event.Id}'.");
     }
 }

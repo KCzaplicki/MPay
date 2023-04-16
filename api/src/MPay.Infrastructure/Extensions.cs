@@ -24,6 +24,42 @@ namespace MPay.Infrastructure;
 
 internal static class Extensions
 {
+    private const string CorsOriginsSectionName = "CorsOrigins";
+    private const string CorsOriginsSeparator = ";";
+    private const string CorsEnableAllOrigins = "*";
+
+    public static void AddCorsConfiguration(this IServiceCollection services)
+    {
+        services.AddCors();
+    }
+    
+    public static void UseCors(this WebApplication app, IConfiguration configuration)
+    {
+        var corsOrigins = configuration.GetSection(CorsOriginsSectionName).Get<string>();
+        if (corsOrigins is null)
+        {
+            return;
+        }    
+            
+        var corsOriginsArray = corsOrigins.Split(CorsOriginsSeparator).ToArray();
+        var enableAll = corsOriginsArray.Contains(CorsEnableAllOrigins) && corsOriginsArray.Length == 1;
+        
+        app.UseCors(builder =>
+        {
+            if (enableAll) 
+            {
+                builder.AllowAnyOrigin();
+            }
+            else
+            {
+                builder.WithOrigins(corsOriginsArray);
+            }
+            
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+        });
+    }
+    
     internal static void AddCommon(this IServiceCollection services)
     {
         services.AddSingleton<IClock, UtcClock>();
@@ -40,8 +76,8 @@ internal static class Extensions
         services.Configure<WebhooksOptions>(configuration.GetSection(GetOptionsSectionName<WebhooksOptions>()));
         services.AddHttpClient("WebhookClient", (serviceProvider, client) =>
         {
-            var options = serviceProvider.GetService<IOptions<WebhooksOptions>>();
-            client.BaseAddress = new Uri(options.Value.Url);
+            var options = serviceProvider.GetService<IOptions<WebhooksOptions>>()?.Value ?? new WebhooksOptions();
+            client.BaseAddress = new Uri(options.Url);
         });
         services.AddScoped<IWebhookClient, WebhookClient>();
     }

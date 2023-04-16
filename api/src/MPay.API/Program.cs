@@ -5,6 +5,7 @@ builder.Host.AddLogger(builder.Configuration);
 builder.Services.ConfigureOptions(builder.Configuration);
 builder.Services.ConfigureJson();
 builder.Services.AddCommon();
+builder.Services.AddCorsConfiguration();
 builder.Services.AddFeatureFlags(builder.Configuration);
 builder.Services.AddEntityFramework(builder.Configuration);
 builder.Services.AddUnitOfWork();
@@ -27,6 +28,7 @@ var app = builder.Build();
 
 app.UseLogger();
 app.UseMigrations();
+app.UseCors(builder.Configuration);
 app.UseErrorHandling();
 
 if (app.Environment.IsDevelopment())

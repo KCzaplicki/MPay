@@ -66,7 +66,7 @@ internal class PurchaseService : IPurchaseService
         purchase.Status = PurchaseStatus.Cancelled;
         purchase.CompletedAt = _clock.Now;
         
-        _asyncEventDispatcher.PublishAsync(new PurchaseCompleted(purchase.Id, purchase.CompletedAt.Value));
+        _asyncEventDispatcher.PublishAsync(new PurchaseCancelled(purchase.Id, purchase.CompletedAt.Value));
 
         await _purchaseRepository.UpdateAsync(purchase);
     }

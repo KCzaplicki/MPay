@@ -9,6 +9,7 @@ internal class ExceptionMapper : IExceptionMapper
 {
     private const string InternalServerErrorMessage = "Unexpected error occurred.";
     private const string InternalServerErrorCode = "UNEXPECTED_ERROR";
+    private const string NotFoundExceptionSuffix = "NOTFOUNDEXCEPTION";
 
     private static readonly ConcurrentDictionary<string, string> ErrorCodes = new();
 
@@ -21,7 +22,7 @@ internal class ExceptionMapper : IExceptionMapper
             Data = MapToData(exception)
         };
 
-    private Dictionary<string, object> MapToData(Exception exception)
+    private Dictionary<string, object?> MapToData(Exception exception)
     {
         if (exception is MPayException)
         {
@@ -43,7 +44,7 @@ internal class ExceptionMapper : IExceptionMapper
         };
 
     private static bool IsNotFoundException(MPayException exception)
-        => exception.GetType().Name.ToUpperInvariant().EndsWith("NOTFOUNDEXCEPTION");
+        => exception.GetType().Name.ToUpperInvariant().EndsWith(NotFoundExceptionSuffix);
 
     private static string MapToTitle(Exception exception)
         => exception is MPayException mPayException ? mPayException.Message : InternalServerErrorMessage;

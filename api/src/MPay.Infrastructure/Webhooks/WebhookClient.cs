@@ -13,11 +13,11 @@ internal class WebhookClient : IWebhookClient
     private readonly ILogger<WebhookClient> _logger;
     private readonly HttpClient _httpClient;
     
-    public WebhookClient(IHttpClientFactory httpClientFactory, IFeatureFlagsService featureFlagsService, ILogger<WebhookClient> logger)
+    public WebhookClient(HttpClient httpClient, IFeatureFlagsService featureFlagsService, ILogger<WebhookClient> logger)
     {
         _featureFlagsService = featureFlagsService;
         _logger = logger;
-        _httpClient = httpClientFactory.CreateClient("WebhookClient");
+        _httpClient = httpClient;
     }
     
     public async Task<bool> SendAsync<TPayload>(TPayload payload) where TPayload : class, IWebhookPayload

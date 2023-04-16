@@ -74,12 +74,12 @@ internal static class Extensions
     internal static void AddWebhooks(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<WebhooksOptions>(configuration.GetSection(GetOptionsSectionName<WebhooksOptions>()));
-        services.AddHttpClient("WebhookClient", (serviceProvider, client) =>
+        services.AddScoped<IWebhookClient, WebhookClient>();
+        services.AddHttpClient<IWebhookClient, WebhookClient>((serviceProvider, client) =>
         {
             var options = serviceProvider.GetService<IOptions<WebhooksOptions>>()?.Value ?? new WebhooksOptions();
             client.BaseAddress = new Uri(options.Url);
         });
-        services.AddScoped<IWebhookClient, WebhookClient>();
     }
 
     internal static void AddEventsBackgroundHandling(this IServiceCollection services)

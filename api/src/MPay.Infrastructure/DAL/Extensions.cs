@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MPay.Core.Repository;
 using MPay.Infrastructure.DAL.Repositories;
 using MPay.Infrastructure.DAL.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 
 namespace MPay.Infrastructure.DAL;
 

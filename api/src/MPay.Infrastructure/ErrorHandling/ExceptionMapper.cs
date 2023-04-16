@@ -1,9 +1,9 @@
-﻿using Humanizer;
+﻿using System.Collections.Concurrent;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Concurrent;
 using MPay.Abstractions.Exceptions;
 
-namespace MPay.Infrastructure.Exceptions;
+namespace MPay.Infrastructure.ErrorHandling;
 
 internal class ExceptionMapper : IExceptionMapper
 {
@@ -13,48 +13,51 @@ internal class ExceptionMapper : IExceptionMapper
 
     private static readonly ConcurrentDictionary<string, string> ErrorCodes = new();
 
-    public ErrorDetails Map(Exception exception) 
-        => new()
+    public ErrorDetails Map(Exception exception)
+    {
+        return new()
         {
             Title = MapToTitle(exception),
             ErrorCode = MapToErrorCode(exception),
             Status = MapToStatusCode(exception),
             Data = MapToData(exception)
         };
+    }
 
     private Dictionary<string, object?> MapToData(Exception exception)
     {
         if (exception is MPayException)
-        {
             return exception.GetType()
-                            .GetProperties()
-                            .Where(p => p.DeclaringType != typeof(Exception))
-                            .ToDictionary(p => p.Name.Camelize(), p => p.GetValue(exception));
-        }
+                .GetProperties()
+                .Where(p => p.DeclaringType != typeof(Exception))
+                .ToDictionary(p => p.Name.Camelize(), p => p.GetValue(exception));
 
         return null;
     }
 
-    private static int MapToStatusCode(Exception exception) 
-        => exception switch
+    private static int MapToStatusCode(Exception exception)
+    {
+        return exception switch
         {
             MPayException e when IsNotFoundException(e) => StatusCodes.Status404NotFound,
             MPayException _ => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
+    }
 
     private static bool IsNotFoundException(MPayException exception)
-        => exception.GetType().Name.ToUpperInvariant().EndsWith(NotFoundExceptionSuffix);
+    {
+        return exception.GetType().Name.ToUpperInvariant().EndsWith(NotFoundExceptionSuffix);
+    }
 
     private static string MapToTitle(Exception exception)
-        => exception is MPayException mPayException ? mPayException.Message : InternalServerErrorMessage;
+    {
+        return exception is MPayException mPayException ? mPayException.Message : InternalServerErrorMessage;
+    }
 
     private static string MapToErrorCode(Exception exception)
     {
-        if (exception is not MPayException)
-        {
-            return InternalServerErrorCode;
-        }
+        if (exception is not MPayException) return InternalServerErrorCode;
 
         var exceptionName = exception.GetType().Name;
         return ErrorCodes.GetOrAdd(exceptionName,

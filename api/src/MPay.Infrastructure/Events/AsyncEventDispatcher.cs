@@ -11,6 +11,8 @@ internal class AsyncEventDispatcher : IAsyncEventDispatcher
         _eventChannel = eventChannel;
     }
 
-    public async Task PublishAsync<TEvent>(TEvent @event) where TEvent : class, IEvent 
-        => await _eventChannel.Writer.WriteAsync(@event);
+    public async Task PublishAsync<TEvent>(TEvent @event) where TEvent : class, IEvent
+    {
+        await _eventChannel.Writer.WriteAsync(@event);
+    }
 }

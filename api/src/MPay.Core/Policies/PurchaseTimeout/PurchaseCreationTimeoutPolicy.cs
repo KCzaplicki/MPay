@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MPay.Abstractions.Common;
 using MPay.Core.Configurations;
+using MPay.Core.Entities;
 
 namespace MPay.Core.Policies.PurchaseTimeout;
 
@@ -16,5 +17,8 @@ internal class PurchaseCreationTimeoutPolicy : IPurchaseTimeoutPolicy
     }
 
     public bool CanApply(Purchase purchase)
-        => purchase.Status == PurchaseStatus.Pending && !purchase.Payments.Any() && purchase.CreatedAt.Add(_timeout) < _clock.Now;
+    {
+        return purchase.Status == PurchaseStatus.Pending && !purchase.Payments.Any() &&
+               purchase.CreatedAt.Add(_timeout) < _clock.Now;
+    }
 }

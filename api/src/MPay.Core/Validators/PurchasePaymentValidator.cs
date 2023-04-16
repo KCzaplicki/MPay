@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MPay.Abstractions.Common;
+using MPay.Core.DTO;
 
 namespace MPay.Core.Validators;
 

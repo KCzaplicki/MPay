@@ -8,7 +8,7 @@ internal class UnitOfWork : IUnitOfWork
     {
         _context = context;
     }
-    
+
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();

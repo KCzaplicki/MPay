@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MPay.Core.DTO;
 
 namespace MPay.Core.Validators;
 

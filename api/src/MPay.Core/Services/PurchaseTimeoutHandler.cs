@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using MPay.Abstractions.Events;
+using MPay.Core.Entities;
 using MPay.Core.Events;
 using MPay.Core.Policies.PurchaseTimeout;
 using MPay.Core.Repository;
@@ -8,12 +9,14 @@ namespace MPay.Core.Services;
 
 internal class PurchaseTimeoutHandler : IPurchaseTimeoutHandler
 {
-    private readonly IPurchaseRepository _purchaseRepository;
-    private readonly IEnumerable<IPurchaseTimeoutPolicy> _purchaseTimeoutPolicies;
     private readonly IAsyncEventDispatcher _asyncEventDispatcher;
     private readonly ILogger<PurchaseTimeoutHandler> _logger;
+    private readonly IPurchaseRepository _purchaseRepository;
+    private readonly IEnumerable<IPurchaseTimeoutPolicy> _purchaseTimeoutPolicies;
 
-    public PurchaseTimeoutHandler(IPurchaseRepository purchaseRepository, IEnumerable<IPurchaseTimeoutPolicy> purchaseTimeoutPolicies, IAsyncEventDispatcher asyncEventDispatcher, ILogger<PurchaseTimeoutHandler> logger)
+    public PurchaseTimeoutHandler(IPurchaseRepository purchaseRepository,
+        IEnumerable<IPurchaseTimeoutPolicy> purchaseTimeoutPolicies, IAsyncEventDispatcher asyncEventDispatcher,
+        ILogger<PurchaseTimeoutHandler> logger)
     {
         _purchaseRepository = purchaseRepository;
         _purchaseTimeoutPolicies = purchaseTimeoutPolicies;
@@ -35,14 +38,14 @@ internal class PurchaseTimeoutHandler : IPurchaseTimeoutHandler
                 pendingPurchase.CompletedAt = DateTime.UtcNow;
                 await _purchaseRepository.UpdateAsync(pendingPurchase);
                 timedOutPurchases++;
-                
-                _asyncEventDispatcher.PublishAsync(new PurchaseTimeout(pendingPurchase.Id, pendingPurchase.CompletedAt.Value));
+
+                _asyncEventDispatcher.PublishAsync(new PurchaseTimeout(pendingPurchase.Id,
+                    pendingPurchase.CompletedAt.Value));
             }
         }
 
         if (timedOutPurchases > 0)
-        {
-            _logger.LogInformation("Purchase timeout service executed. {timedOutPurchases} purchases timed out.", timedOutPurchases);
-        }
+            _logger.LogInformation("Purchase timeout service executed. {timedOutPurchases} purchases timed out.",
+                timedOutPurchases);
     }
 }

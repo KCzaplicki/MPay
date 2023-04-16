@@ -11,17 +11,15 @@ public class FeatureFlagsService : IFeatureFlagsService
     {
         _options = options;
     }
-    
+
     public bool IsEnabled(FeatureFlag featureFlag)
     {
         var featureFlagName = featureFlag.ToString();
-        
+
         var featureFlagProperty = typeof(FeatureFlagsOptions).GetProperty(featureFlagName);
         if (featureFlagProperty is null)
-        {
             throw new ArgumentException($"Feature flag '{featureFlagName}' is not defined.");
-        }
-        
+
         return featureFlagProperty.GetValue(_options.Value) is true;
     }
 

@@ -1,4 +1,6 @@
-﻿namespace MPay.Core.Policies.PurchaseTimeout;
+﻿using MPay.Core.Entities;
+
+namespace MPay.Core.Policies.PurchaseTimeout;
 
 public interface IPurchaseTimeoutPolicy
 {

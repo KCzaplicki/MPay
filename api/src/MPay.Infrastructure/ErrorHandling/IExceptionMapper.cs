@@ -1,4 +1,4 @@
-﻿namespace MPay.Infrastructure.Exceptions;
+﻿namespace MPay.Infrastructure.ErrorHandling;
 
 public interface IExceptionMapper
 {

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using MPay.Abstractions.Common;
+using MPay.Core.DTO;
+using MPay.Core.Entities;
 
 namespace MPay.Core.Factories;
 
 internal class PurchaseFactory : IPurchaseFactory
 {
-    private readonly IMapper _mapper;
     private readonly IClock _clock;
+    private readonly IMapper _mapper;
 
     public PurchaseFactory(IMapper mapper, IClock clock)
     {

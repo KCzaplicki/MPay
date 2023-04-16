@@ -5,10 +5,12 @@ namespace MPay.Infrastructure.DAL;
 
 internal class MPayDbContext : DbContext
 {
+    public MPayDbContext(DbContextOptions<MPayDbContext> options) : base(options)
+    {
+    }
+
     public DbSet<Purchase> Purchases { get; set; }
     public DbSet<PurchasePayment> PurchasePayments { get; set; }
-
-    public MPayDbContext(DbContextOptions<MPayDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

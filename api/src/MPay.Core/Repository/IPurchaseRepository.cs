@@ -1,4 +1,6 @@
-﻿namespace MPay.Core.Repository;
+﻿using MPay.Core.Entities;
+
+namespace MPay.Core.Repository;
 
 public interface IPurchaseRepository
 {

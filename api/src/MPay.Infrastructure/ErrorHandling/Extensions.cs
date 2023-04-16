@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MPay.Infrastructure.Exceptions;
+namespace MPay.Infrastructure.ErrorHandling;
 
 internal static class Extensions
 {

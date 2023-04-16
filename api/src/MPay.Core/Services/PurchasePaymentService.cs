@@ -1,5 +1,8 @@
 ﻿using MPay.Abstractions.Events;
+using MPay.Core.DTO;
+using MPay.Core.Entities;
 using MPay.Core.Events;
+using MPay.Core.Exceptions;
 using MPay.Core.Factories;
 using MPay.Core.Policies.PurchasePaymentStatus;
 using MPay.Core.Repository;
@@ -8,14 +11,16 @@ namespace MPay.Core.Services;
 
 internal class PurchasePaymentService : IPurchasePaymentService
 {
-    private readonly IPurchaseRepository _purchaseRepository;
+    private readonly IAsyncEventDispatcher _asyncEventDispatcher;
+    private readonly IPurchasePaymentFactory _purchasePaymentFactory;
     private readonly IPurchasePaymentRepository _purchasePaymentRepository;
     private readonly IEnumerable<IPurchasePaymentStatusPolicy> _purchasePaymentStatusPolicies;
-    private readonly IPurchasePaymentFactory _purchasePaymentFactory;
-    private readonly IAsyncEventDispatcher _asyncEventDispatcher;
+    private readonly IPurchaseRepository _purchaseRepository;
 
-    public PurchasePaymentService(IPurchaseRepository purchaseRepository, IPurchasePaymentRepository purchasePaymentRepository,
-        IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies, IPurchasePaymentFactory purchasePaymentFactory, IAsyncEventDispatcher asyncEventDispatcher)
+    public PurchasePaymentService(IPurchaseRepository purchaseRepository,
+        IPurchasePaymentRepository purchasePaymentRepository,
+        IEnumerable<IPurchasePaymentStatusPolicy> purchasePaymentStatusPolicies,
+        IPurchasePaymentFactory purchasePaymentFactory, IAsyncEventDispatcher asyncEventDispatcher)
     {
         _purchaseRepository = purchaseRepository;
         _purchasePaymentRepository = purchasePaymentRepository;
@@ -28,14 +33,8 @@ internal class PurchasePaymentService : IPurchasePaymentService
     {
         var purchase = await _purchaseRepository.GetAsync(id);
 
-        if (purchase is null)
-        {
-            throw new PurchaseNotFoundException(id);
-        }
-        if (purchase.Status != PurchaseStatus.Pending)
-        {
-            throw new PurchaseStatusNotPendingException(id);
-        }
+        if (purchase is null) throw new PurchaseNotFoundException(id);
+        if (purchase.Status != PurchaseStatus.Pending) throw new PurchaseStatusNotPendingException(id);
 
         var purchasePayment = _purchasePaymentFactory.Create(purchase.Id, purchasePaymentDto);
         var purchasePaymentStatusPolicy = _purchasePaymentStatusPolicies
@@ -44,9 +43,7 @@ internal class PurchasePaymentService : IPurchasePaymentService
         purchasePaymentStatusPolicy?.Apply(purchasePayment);
 
         if (purchasePayment.Status == default)
-        {
             throw new PurchasePaymentNotProcessedException(purchasePayment.PurchaseId, purchasePayment.Id);
-        }
 
         await _purchasePaymentRepository.AddAsync(purchasePayment);
 
@@ -55,7 +52,7 @@ internal class PurchasePaymentService : IPurchasePaymentService
             purchase.CompletedAt = purchasePayment.CreatedAt;
             purchase.Status = PurchaseStatus.Completed;
             await _purchaseRepository.UpdateAsync(purchase);
-            
+
             _asyncEventDispatcher.PublishAsync(new PurchaseCompleted(purchase.Id, purchase.CompletedAt.Value));
         }
 

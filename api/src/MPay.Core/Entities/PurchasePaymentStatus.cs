@@ -5,5 +5,5 @@ public enum PurchasePaymentStatus
     Completed = 1,
     InvalidCard,
     NoFounds,
-    Timeout,
+    Timeout
 }

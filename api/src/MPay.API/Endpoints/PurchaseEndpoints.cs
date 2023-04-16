@@ -1,13 +1,17 @@
 ﻿using System.Net;
 using System.Net.Mime;
+using MPay.Core.DTO;
+using MPay.Core.Services;
 using MPay.Infrastructure.DAL.UnitOfWork;
+using MPay.Infrastructure.ErrorHandling;
+using MPay.Infrastructure.Validation;
 
 namespace MPay.API.Endpoints;
 
 internal static class PurchaseEndpoints
 {
     private const string BasePath = "/purchases";
-    
+
     private const string PurchaseTag = "Purchase";
     private const string PaymentTag = "Payment";
 

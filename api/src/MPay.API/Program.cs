@@ -1,3 +1,15 @@
+using MPay.API.Endpoints;
+using MPay.Core;
+using MPay.Infrastructure;
+using MPay.Infrastructure.Common;
+using MPay.Infrastructure.Cors;
+using MPay.Infrastructure.DAL;
+using MPay.Infrastructure.ErrorHandling;
+using MPay.Infrastructure.Events;
+using MPay.Infrastructure.FeatureFlags;
+using MPay.Infrastructure.Validation;
+using MPay.Infrastructure.Webhooks;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.AddLogger(builder.Configuration);
@@ -31,10 +43,7 @@ app.UseMigrations();
 app.UseCors(builder.Configuration);
 app.UseErrorHandling();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-}
+if (app.Environment.IsDevelopment()) app.UseSwagger();
 
 app.UseHealthCheck();
 app.MapAPIEndpoints();

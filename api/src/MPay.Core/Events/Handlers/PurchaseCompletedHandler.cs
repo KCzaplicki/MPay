@@ -7,19 +7,20 @@ namespace MPay.Core.Events.Handlers;
 
 internal class PurchaseCompletedHandler : IEventHandler<PurchaseCompleted>
 {
-    private readonly IWebhookClient _webhookClient;
     private readonly ILogger<PurchaseCompletedHandler> _logger;
-    
+    private readonly IWebhookClient _webhookClient;
+
     public PurchaseCompletedHandler(IWebhookClient webhookClient, ILogger<PurchaseCompletedHandler> logger)
     {
         _webhookClient = webhookClient;
         _logger = logger;
     }
-    
+
     public async Task HandleAsync(PurchaseCompleted @event)
     {
         _logger.LogInformation($"Purchase completed event handled. Purchase Id: '{@event.Id}'.");
-        await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Completed, @event.CompletedAt));
+        await _webhookClient.SendAsync(new PurchaseUpdateResultDto(@event.Id, PurchaseUpdateStatus.Completed,
+            @event.CompletedAt));
         _logger.LogInformation($"Purchase completed event handled. Purchase Id: '{@event.Id}'");
     }
 }

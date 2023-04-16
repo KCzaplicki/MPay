@@ -5,8 +5,8 @@ namespace MPay.Infrastructure.DAL.UnitOfWork;
 
 internal class TransactionalEndpointFilter : IEndpointFilter
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<TransactionalEndpointFilter> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public TransactionalEndpointFilter(IUnitOfWork unitOfWork, ILogger<TransactionalEndpointFilter> logger)
     {
@@ -18,7 +18,7 @@ internal class TransactionalEndpointFilter : IEndpointFilter
     {
         try
         {
-           return await _unitOfWork.ExecuteAsync(async () => await next(context));
+            return await _unitOfWork.ExecuteAsync(async () => await next(context));
         }
         catch (Exception exception)
         {

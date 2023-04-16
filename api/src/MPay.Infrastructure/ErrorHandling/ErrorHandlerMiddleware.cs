@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace MPay.Infrastructure.Exceptions;
+namespace MPay.Infrastructure.ErrorHandling;
 
 internal class ErrorHandlerMiddleware : IMiddleware
 {
@@ -28,7 +28,7 @@ internal class ErrorHandlerMiddleware : IMiddleware
         var response = context.Response;
         var errorDetails = _mapper.Map(exception);
         response.StatusCode = errorDetails.Status.Value;
-        
+
         await response.WriteAsJsonAsync(errorDetails);
     }
 }

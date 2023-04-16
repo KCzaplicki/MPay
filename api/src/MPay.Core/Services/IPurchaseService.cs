@@ -1,4 +1,6 @@
-﻿namespace MPay.Core.Services;
+﻿using MPay.Core.DTO;
+
+namespace MPay.Core.Services;
 
 public interface IPurchaseService
 {

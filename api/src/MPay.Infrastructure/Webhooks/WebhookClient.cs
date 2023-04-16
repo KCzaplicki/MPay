@@ -10,30 +10,27 @@ namespace MPay.Infrastructure.Webhooks;
 internal class WebhookClient : IWebhookClient
 {
     private readonly IFeatureFlagsService _featureFlagsService;
-    private readonly ILogger<WebhookClient> _logger;
     private readonly HttpClient _httpClient;
-    
+    private readonly ILogger<WebhookClient> _logger;
+
     public WebhookClient(HttpClient httpClient, IFeatureFlagsService featureFlagsService, ILogger<WebhookClient> logger)
     {
         _featureFlagsService = featureFlagsService;
         _logger = logger;
         _httpClient = httpClient;
     }
-    
+
     public async Task<bool> SendAsync<TPayload>(TPayload payload) where TPayload : class, IWebhookPayload
     {
-        if (!_featureFlagsService.IsEnabled(FeatureFlag.Webhooks))
-        {
-            return true;
-        }
-        
-        var payloadJson = new StringContent(JsonSerializer.Serialize(payload), 
+        if (!_featureFlagsService.IsEnabled(FeatureFlag.Webhooks)) return true;
+
+        var payloadJson = new StringContent(JsonSerializer.Serialize(payload),
             Encoding.UTF8, MediaTypeNames.Application.Json);
 
         using var response = await _httpClient.PostAsync(string.Empty, payloadJson);
 
-        _logger.LogInformation($"Webhook request sent. Payload: '{payloadJson}'. Response status code: '{response}'.");
-        
+        _logger.LogInformation($"Webhook request sent. Payload: '{payloadJson}'. Response status code: '{response.StatusCode}'.");
+
         return response.IsSuccessStatusCode;
     }
 }

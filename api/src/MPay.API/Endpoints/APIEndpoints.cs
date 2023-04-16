@@ -15,7 +15,7 @@ internal static class HomeEndpoints
             .WithOpenApi();
 
         app.MapGet("/configuration",
-            (IFeatureFlagsService featureFlagsService) => TypedResults.Ok(featureFlagsService.GetConfiguration()))
+                (IFeatureFlagsService featureFlagsService) => TypedResults.Ok(featureFlagsService.GetConfiguration()))
             .WithTags(APITag)
             .WithDescription("API configuration")
             .Produces<IDictionary<FeatureFlag, bool>>()

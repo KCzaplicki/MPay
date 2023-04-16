@@ -10,12 +10,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoBogus" Version="2.13.1" />
-        <PackageReference Include="AutoBogus.Moq" Version="2.13.1" />
-        <PackageReference Include="FluentAssertions" Version="6.10.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-        <PackageReference Include="Moq" Version="4.18.4" />
-        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="AutoBogus" Version="2.13.1"/>
+        <PackageReference Include="AutoBogus.Moq" Version="2.13.1"/>
+        <PackageReference Include="FluentAssertions" Version="6.10.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2"/>
+        <PackageReference Include="Moq" Version="4.18.4"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -27,8 +27,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\MPay.Core\MPay.Core.csproj" />
-      <ProjectReference Include="..\MPay.Tests.Shared\MPay.Tests.Shared.csproj" />
+        <ProjectReference Include="..\..\src\MPay.Core\MPay.Core.csproj"/>
+        <ProjectReference Include="..\MPay.Tests.Shared\MPay.Tests.Shared.csproj"/>
     </ItemGroup>
 
 </Project>

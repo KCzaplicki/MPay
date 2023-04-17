@@ -11,6 +11,9 @@ using MPay.Infrastructure.Services;
 using Serilog;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
+[assembly: InternalsVisibleTo("MPay.Core.Tests")]
+[assembly: InternalsVisibleTo("MPay.Tests.Shared")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace MPay.Infrastructure;
 

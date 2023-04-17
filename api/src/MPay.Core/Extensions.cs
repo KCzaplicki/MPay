@@ -15,6 +15,7 @@ using PurchaseTimeoutHandler = MPay.Core.Services.PurchaseTimeoutHandler;
 [assembly: InternalsVisibleTo("MPay.Api")]
 [assembly: InternalsVisibleTo("MPay.Core.Tests")]
 [assembly: InternalsVisibleTo("MPay.Tests.Shared")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace MPay.Core;
 

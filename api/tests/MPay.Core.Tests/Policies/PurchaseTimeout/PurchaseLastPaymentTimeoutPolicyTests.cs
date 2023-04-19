@@ -16,7 +16,7 @@ public class PurchaseLastPaymentTimeoutPolicyTests
             PurchaseLastPaymentTimeoutInMinutes = 5
         });
     }
-    
+
     [Fact]
     public void CanApply_ReturnsTrue_WhenLastPaymentCreationIsOlderThanTimeout()
     {
@@ -34,14 +34,14 @@ public class PurchaseLastPaymentTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseLastPaymentTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.True(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenLastPaymentCreationIsNewerThanTimeout()
     {
@@ -59,14 +59,14 @@ public class PurchaseLastPaymentTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseLastPaymentTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchaseHasNoPayments()
     {
@@ -78,14 +78,14 @@ public class PurchaseLastPaymentTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseLastPaymentTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchaseStatusIsNotPending()
     {
@@ -103,10 +103,10 @@ public class PurchaseLastPaymentTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseLastPaymentTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.False(result);
     }

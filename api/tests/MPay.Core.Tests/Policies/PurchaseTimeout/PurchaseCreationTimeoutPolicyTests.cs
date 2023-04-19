@@ -16,7 +16,7 @@ public class PurchaseCreationTimeoutPolicyTests
             PurchaseCreationTimeoutInMinutes = 5
         });
     }
-    
+
     [Fact]
     public void CanApply_ReturnsTrue_WhenPurchaseCreationIsOlderThanTimeout()
     {
@@ -29,14 +29,14 @@ public class PurchaseCreationTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseCreationTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.True(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchaseCreationIsNewerThanTimeout()
     {
@@ -49,14 +49,14 @@ public class PurchaseCreationTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseCreationTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchaseHasPayments()
     {
@@ -72,14 +72,14 @@ public class PurchaseCreationTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseCreationTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchaseStatusIsNotPending()
     {
@@ -92,10 +92,10 @@ public class PurchaseCreationTimeoutPolicyTests
         };
         var mockClock = MockClockFactory.Create(DateTime.UtcNow);
         var policy = new PurchaseCreationTimeoutPolicy(mockClock.Object, _purchaseTimeoutOptions);
-        
+
         // Act
         var result = policy.CanApply(purchase);
-        
+
         // Assert
         Assert.False(result);
     }

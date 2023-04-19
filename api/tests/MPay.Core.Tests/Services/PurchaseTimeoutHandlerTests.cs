@@ -17,7 +17,7 @@ public class PurchaseTimeoutHandlerTests
     {
         _logger = new Mock<ILogger<PurchaseTimeoutHandler>>();
     }
-    
+
     [Fact]
     public async Task ExecuteAsync_ProcessPurchases_When_TimeoutPurchasesExists()
     {
@@ -26,8 +26,8 @@ public class PurchaseTimeoutHandlerTests
         var mockPurchaseRepository = MockPurchaseRepositoryFactory.Create(purchases);
         var purchaseTimeoutPolicies = CreateMockPurchaseTimeoutPolicies(true);
         var asyncEventDispatcher = new Mock<IAsyncEventDispatcher>();
-        
-        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies, 
+
+        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies,
             asyncEventDispatcher.Object, _logger.Object);
 
         // Act
@@ -35,10 +35,7 @@ public class PurchaseTimeoutHandlerTests
 
         // Assert
         mockPurchaseRepository.Verify(x => x.UpdateAsync(It.IsAny<Purchase>()), Times.Exactly(purchases.Count));
-        foreach (var purchase in purchases)
-        {
-            mockPurchaseRepository.Verify(x => x.UpdateAsync(purchase), Times.Once);
-        }
+        foreach (var purchase in purchases) mockPurchaseRepository.Verify(x => x.UpdateAsync(purchase), Times.Once);
     }
 
     [Fact]
@@ -49,7 +46,7 @@ public class PurchaseTimeoutHandlerTests
         var mockPurchaseRepository = MockPurchaseRepositoryFactory.Create(purchases);
         var purchaseTimeoutPolicies = CreateMockPurchaseTimeoutPolicies(false);
         var asyncEventDispatcher = new Mock<IAsyncEventDispatcher>();
-        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies, 
+        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies,
             asyncEventDispatcher.Object, _logger.Object);
 
         // Act
@@ -58,7 +55,7 @@ public class PurchaseTimeoutHandlerTests
         // Assert
         mockPurchaseRepository.Verify(x => x.UpdateAsync(It.IsAny<Purchase>()), Times.Never);
     }
-    
+
     [Fact]
     public async Task ExecuteAsync_PublishesPurchaseTimeoutEvent_When_TimeoutPurchasesExists()
     {
@@ -67,7 +64,7 @@ public class PurchaseTimeoutHandlerTests
         var mockPurchaseRepository = MockPurchaseRepositoryFactory.Create(purchases);
         var purchaseTimeoutPolicies = CreateMockPurchaseTimeoutPolicies(true);
         var asyncEventDispatcher = new Mock<IAsyncEventDispatcher>();
-        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies, 
+        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies,
             asyncEventDispatcher.Object, _logger.Object);
 
         // Act
@@ -76,12 +73,10 @@ public class PurchaseTimeoutHandlerTests
         // Assert
         asyncEventDispatcher.Verify(x => x.PublishAsync(It.IsAny<PurchaseTimeout>()), Times.Exactly(purchases.Count));
         foreach (var purchase in purchases)
-        {
             asyncEventDispatcher.Verify(x => x.PublishAsync(It.Is<PurchaseTimeout>(
-                    e => e.Id == purchase.Id && e.TimeoutAt == purchase.CompletedAt)), Times.Once);
-        }
+                e => e.Id == purchase.Id && e.TimeoutAt == purchase.CompletedAt)), Times.Once);
     }
-    
+
     [Fact]
     public async Task ExecuteAsync_DoesNotPublishPurchaseTimeoutEvent_When_TimeoutPurchasesDoesNotExist()
     {
@@ -90,7 +85,7 @@ public class PurchaseTimeoutHandlerTests
         var mockPurchaseRepository = MockPurchaseRepositoryFactory.Create(purchases);
         var purchaseTimeoutPolicies = CreateMockPurchaseTimeoutPolicies(false);
         var asyncEventDispatcher = new Mock<IAsyncEventDispatcher>();
-        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies, 
+        var purchaseTimeoutHandler = new PurchaseTimeoutHandler(mockPurchaseRepository.Object, purchaseTimeoutPolicies,
             asyncEventDispatcher.Object, _logger.Object);
 
         // Act
@@ -104,7 +99,7 @@ public class PurchaseTimeoutHandlerTests
     {
         var mockPurchaseTimeoutPolicy = new Mock<IPurchaseTimeoutPolicy>();
         mockPurchaseTimeoutPolicy.Setup(x => x.CanApply(It.IsAny<Purchase>())).Returns(canApply);
-        
+
         var purchaseTimeoutPolicies = new List<IPurchaseTimeoutPolicy>
         {
             mockPurchaseTimeoutPolicy.Object

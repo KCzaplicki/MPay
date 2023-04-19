@@ -12,10 +12,12 @@ public static class MockPurchaseRepositoryFactory
         mockPurchaseRepository.Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync((string id) => purchases.FirstOrDefault(p => p.Id == id));
         mockPurchaseRepository.Setup(x => x.UpdateAsync(It.IsAny<Purchase>())).Returns(Task.CompletedTask);
-        
+
         return mockPurchaseRepository;
     }
-    
-    public static Mock<IPurchaseRepository> Create(Purchase purchases) 
-        => Create(new List<Purchase> { purchases });
+
+    public static Mock<IPurchaseRepository> Create(Purchase purchases)
+    {
+        return Create(new List<Purchase> { purchases });
+    }
 }

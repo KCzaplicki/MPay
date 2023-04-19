@@ -15,14 +15,14 @@ public class PurchasePaymentStatusTimeoutPolicyTests
             CardNumber = 3
         };
         var policy = new PurchasePaymentStatusTimeoutPolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.True(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenCardNumberDoesNotEndsWith3()
     {
@@ -33,14 +33,14 @@ public class PurchasePaymentStatusTimeoutPolicyTests
             CardNumber = 4
         };
         var policy = new PurchasePaymentStatusTimeoutPolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchasePaymentHasBeenProcessed()
     {
@@ -51,14 +51,14 @@ public class PurchasePaymentStatusTimeoutPolicyTests
             CardNumber = 3
         };
         var policy = new PurchasePaymentStatusTimeoutPolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void Apply_SetStatusToTimeout()
     {
@@ -69,10 +69,10 @@ public class PurchasePaymentStatusTimeoutPolicyTests
             CardNumber = 3
         };
         var policy = new PurchasePaymentStatusTimeoutPolicy();
-        
+
         // Act
         policy.Apply(purchasePayment);
-        
+
         // Assert
         Assert.Equal(Entities.PurchasePaymentStatus.Timeout, purchasePayment.Status);
     }

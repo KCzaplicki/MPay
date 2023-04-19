@@ -29,7 +29,8 @@ internal class WebhookClient : IWebhookClient
 
         using var response = await _httpClient.PostAsync(string.Empty, payloadJson);
 
-        _logger.LogInformation($"Webhook request sent. Payload: '{payloadJson}'. Response status code: '{response.StatusCode}'.");
+        _logger.LogInformation(
+            $"Webhook request sent. Payload: '{payloadJson}'. Response status code: '{response.StatusCode}'.");
 
         return response.IsSuccessStatusCode;
     }

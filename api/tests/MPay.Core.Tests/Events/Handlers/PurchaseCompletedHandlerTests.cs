@@ -24,7 +24,7 @@ public class PurchaseCompletedHandlerTests
 
         // Assert
         mockWebClient.Verify(x => x.SendAsync(It.Is<PurchaseUpdateResultDto>(
-            p => p.Id == purchaseCompletedEvent.Id && p.Status == PurchaseUpdateStatus.Completed && 
+            p => p.Id == purchaseCompletedEvent.Id && p.Status == PurchaseUpdateStatus.Completed &&
                  p.UpdatedAt == purchaseCompletedEvent.CompletedAt)), Times.Once);
     }
 }

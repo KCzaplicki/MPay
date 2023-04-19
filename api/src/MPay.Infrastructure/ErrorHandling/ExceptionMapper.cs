@@ -15,7 +15,7 @@ internal class ExceptionMapper : IExceptionMapper
 
     public ErrorDetails Map(Exception exception)
     {
-        return new()
+        return new ErrorDetails
         {
             Title = MapToTitle(exception),
             ErrorCode = MapToErrorCode(exception),

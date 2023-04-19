@@ -14,14 +14,14 @@ public class PurchasePaymentStatusCompletePolicyTests
             Status = default
         };
         var policy = new PurchasePaymentStatusCompletePolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.True(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchasePaymentHasBeenProcessed()
     {
@@ -31,14 +31,14 @@ public class PurchasePaymentStatusCompletePolicyTests
             Status = Entities.PurchasePaymentStatus.Completed
         };
         var policy = new PurchasePaymentStatusCompletePolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void Apply_SetStatusToCompleted()
     {
@@ -48,10 +48,10 @@ public class PurchasePaymentStatusCompletePolicyTests
             Status = default
         };
         var policy = new PurchasePaymentStatusCompletePolicy();
-        
+
         // Act
         policy.Apply(purchasePayment);
-        
+
         // Assert
         Assert.Equal(Entities.PurchasePaymentStatus.Completed, purchasePayment.Status);
     }

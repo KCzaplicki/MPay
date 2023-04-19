@@ -22,7 +22,7 @@ internal class ValidationErrorMapper : IValidationErrorMapper
 
     private static ValidationError CreateValidationError(ValidationFailure validationFailure)
     {
-        return new(MapErrorCode(validationFailure), MapErrorParameters(validationFailure),
+        return new ValidationError(MapErrorCode(validationFailure), MapErrorParameters(validationFailure),
             validationFailure.ErrorMessage);
     }
 

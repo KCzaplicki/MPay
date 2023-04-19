@@ -20,7 +20,7 @@ public static class ErrorDetailsExtensions
 
     private static ErrorDetails MapFromPurchasePaymentResult(PurchasePaymentResultDto purchasePaymentResultDto)
     {
-        return new()
+        return new ErrorDetails
         {
             Title = string.Format(PurchasePaymentFailedTitlePattern, purchasePaymentResultDto.PurchaseId,
                 purchasePaymentResultDto.PurchasePaymentStatus),

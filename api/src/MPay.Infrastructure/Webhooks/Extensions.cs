@@ -11,7 +11,8 @@ internal static class Extensions
 {
     internal static void AddWebhooks(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<WebhooksOptions>(configuration.GetSection(MPay.Infrastructure.Extensions.GetOptionsSectionName<WebhooksOptions>()));
+        services.Configure<WebhooksOptions>(
+            configuration.GetSection(Infrastructure.Extensions.GetOptionsSectionName<WebhooksOptions>()));
         services.AddScoped<IWebhookClient, WebhookClient>();
         services.AddHttpClient<IWebhookClient, WebhookClient>((serviceProvider, client) =>
             {

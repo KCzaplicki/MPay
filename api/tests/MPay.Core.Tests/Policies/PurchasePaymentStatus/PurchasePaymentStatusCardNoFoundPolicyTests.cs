@@ -15,14 +15,14 @@ public class PurchasePaymentStatusCardNoFoundPolicyTests
             CardNumber = 2
         };
         var policy = new PurchasePaymentStatusCardNoFoundsPolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.True(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenCardNumberDoesNotEndsWith2()
     {
@@ -33,14 +33,14 @@ public class PurchasePaymentStatusCardNoFoundPolicyTests
             CardNumber = 3
         };
         var policy = new PurchasePaymentStatusCardNoFoundsPolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void CanApply_ReturnsFalse_WhenPurchasePaymentHasBeenProcessed()
     {
@@ -51,14 +51,14 @@ public class PurchasePaymentStatusCardNoFoundPolicyTests
             CardNumber = 2
         };
         var policy = new PurchasePaymentStatusCardNoFoundsPolicy();
-        
+
         // Act
         var result = policy.CanApply(purchasePayment);
-        
+
         // Assert
         Assert.False(result);
     }
-    
+
     [Fact]
     public void Apply_SetStatusToNoFounds()
     {
@@ -69,10 +69,10 @@ public class PurchasePaymentStatusCardNoFoundPolicyTests
             CardNumber = 2
         };
         var policy = new PurchasePaymentStatusCardNoFoundsPolicy();
-        
+
         // Act
         policy.Apply(purchasePayment);
-        
+
         // Assert
         Assert.Equal(Entities.PurchasePaymentStatus.NoFounds, purchasePayment.Status);
     }

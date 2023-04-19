@@ -24,7 +24,7 @@ public class PurchaseCreatedHandlerTests
 
         // Assert
         mockWebClient.Verify(x => x.SendAsync(It.Is<PurchaseUpdateResultDto>(
-            p => p.Id == purchaseCreatedEvent.Id && p.Status == PurchaseUpdateStatus.Created && 
+            p => p.Id == purchaseCreatedEvent.Id && p.Status == PurchaseUpdateStatus.Created &&
                  p.UpdatedAt == purchaseCreatedEvent.CreatedAt)), Times.Once);
     }
 }

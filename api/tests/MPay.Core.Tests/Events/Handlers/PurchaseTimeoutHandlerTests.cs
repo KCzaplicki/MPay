@@ -24,7 +24,7 @@ public class PurchaseTimeoutHandlerTests
 
         // Assert
         mockWebClient.Verify(x => x.SendAsync(It.Is<PurchaseUpdateResultDto>(
-            p => p.Id == purchaseTimeoutEvent.Id && p.Status == PurchaseUpdateStatus.Timeout && 
+            p => p.Id == purchaseTimeoutEvent.Id && p.Status == PurchaseUpdateStatus.Timeout &&
                  p.UpdatedAt == purchaseTimeoutEvent.TimeoutAt)), Times.Once);
     }
 }

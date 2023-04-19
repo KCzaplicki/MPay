@@ -8,7 +8,8 @@ internal static class Extensions
 {
     internal static void AddFeatureFlags(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<FeatureFlagsOptions>(configuration.GetSection(MPay.Infrastructure.Extensions.GetOptionsSectionName<FeatureFlagsOptions>()));
+        services.Configure<FeatureFlagsOptions>(
+            configuration.GetSection(Infrastructure.Extensions.GetOptionsSectionName<FeatureFlagsOptions>()));
         services.AddScoped<IFeatureFlagsService, FeatureFlagsService>();
     }
 }

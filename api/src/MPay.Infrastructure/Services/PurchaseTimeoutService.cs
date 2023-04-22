@@ -40,7 +40,7 @@ internal class PurchaseTimeoutService : BackgroundService
 
         while (true)
         {
-            await Task.Delay(TimeSpan.FromSeconds(_options.IntervalInSeconds), stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(_options?.IntervalInSeconds ?? 0), stoppingToken);
             await purchaseTimeoutHandler.ExecuteAsync();
 
             if (stoppingToken.IsCancellationRequested)

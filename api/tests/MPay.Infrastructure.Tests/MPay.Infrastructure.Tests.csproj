@@ -24,8 +24,6 @@
       <Folder Include="DAL\Repositories" />
       <Folder Include="DAL\UnitOfWork" />
       <Folder Include="ErrorHandling" />
-      <Folder Include="Mapping" />
-      <Folder Include="Services" />
       <Folder Include="Validation" />
       <Folder Include="Webhooks" />
     </ItemGroup>

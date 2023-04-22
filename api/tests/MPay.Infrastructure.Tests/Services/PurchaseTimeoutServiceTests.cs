@@ -66,7 +66,7 @@ public class PurchaseTimeoutServiceTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ThrowsArgumentException_WhenFeatureFlagsServiceNotRegistered()
+    public void ExecuteAsync_ThrowsArgumentException_WhenFeatureFlagsServiceNotRegistered()
     {
         // Arrange
         var serviceProvider = MockServiceProviderFactory.Create();
@@ -81,7 +81,7 @@ public class PurchaseTimeoutServiceTests
     }
     
     [Fact]
-    public async Task ExecuteAsync_ThrowsArgumentException_WhenPurchaseTimeoutHandlerNotRegistered()
+    public void ExecuteAsync_ThrowsArgumentException_WhenPurchaseTimeoutHandlerNotRegistered()
     {
         // Arrange
         var featureFlagsService = CreateMockFeatureFlagsService();

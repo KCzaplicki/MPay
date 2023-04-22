@@ -25,7 +25,6 @@
       <Folder Include="DAL\UnitOfWork" />
       <Folder Include="ErrorHandling" />
       <Folder Include="Validation" />
-      <Folder Include="Webhooks" />
     </ItemGroup>
 
 </Project>

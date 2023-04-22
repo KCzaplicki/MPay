@@ -12,6 +12,7 @@ using Serilog;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
 [assembly: InternalsVisibleTo("MPay.Core.Tests")]
+[assembly: InternalsVisibleTo("MPay.Infrastructure.Tests")]
 [assembly: InternalsVisibleTo("MPay.Tests.Shared")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 

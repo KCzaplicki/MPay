@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,7 +24,7 @@
       <Folder Include="DAL\Repositories" />
       <Folder Include="DAL\UnitOfWork" />
       <Folder Include="ErrorHandling" />
-      <Folder Include="Events" />
+      <Folder Include="Mapping" />
       <Folder Include="Services" />
       <Folder Include="Validation" />
       <Folder Include="Webhooks" />

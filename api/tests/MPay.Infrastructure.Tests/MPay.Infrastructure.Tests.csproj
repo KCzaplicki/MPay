@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\MPay.Infrastructure\MPay.Infrastructure.csproj" />
+        <ProjectReference Include="..\MPay.Tests.Shared\MPay.Tests.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DAL\Repositories" />
+      <Folder Include="DAL\UnitOfWork" />
+      <Folder Include="ErrorHandling" />
+      <Folder Include="Events" />
+      <Folder Include="Services" />
+      <Folder Include="Validation" />
+      <Folder Include="Webhooks" />
+    </ItemGroup>
+
+</Project>

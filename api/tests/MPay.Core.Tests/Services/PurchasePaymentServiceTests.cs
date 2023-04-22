@@ -190,8 +190,7 @@ public class PurchasePaymentServiceTests
     }
 
     [Fact]
-    public async Task
-        ProcessPaymentAsync_ThrowsPurchasePaymentNotProcessedException_WhenPurchasePaymentStatusIsNotProcessed()
+    public async Task ProcessPaymentAsync_ThrowsPurchasePaymentNotProcessedException_WhenPurchasePaymentStatusIsNotProcessed()
     {
         // Arrange
         var purchasePaymentDto = AutoFaker.Generate<PurchasePaymentDto, PurchasePaymentDtoFake>();

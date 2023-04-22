@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPay.Core.Tests", "tests\MP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPay.Tests.Shared", "tests\MPay.Tests.Shared\MPay.Tests.Shared.csproj", "{07DD5007-0065-4DCD-A94C-D94C75931819}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPay.Infrastructure.Tests", "tests\MPay.Infrastructure.Tests\MPay.Infrastructure.Tests.csproj", "{910EF9FD-33F8-4F14-9599-0F7771D44728}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{07DD5007-0065-4DCD-A94C-D94C75931819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07DD5007-0065-4DCD-A94C-D94C75931819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07DD5007-0065-4DCD-A94C-D94C75931819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{910EF9FD-33F8-4F14-9599-0F7771D44728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{910EF9FD-33F8-4F14-9599-0F7771D44728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{910EF9FD-33F8-4F14-9599-0F7771D44728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{910EF9FD-33F8-4F14-9599-0F7771D44728}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{C2B61FD6-B982-479C-99EF-47A97ADB5A9C} = {AB699E02-947A-461D-89DC-6A58A6087BA5}
 		{9DC985AE-9291-47FB-97D8-AF3FFEF2DC5C} = {F1BBE044-1A64-4ADB-A1FC-997FF8A956F3}
 		{07DD5007-0065-4DCD-A94C-D94C75931819} = {F1BBE044-1A64-4ADB-A1FC-997FF8A956F3}
+		{910EF9FD-33F8-4F14-9599-0F7771D44728} = {F1BBE044-1A64-4ADB-A1FC-997FF8A956F3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28E474BB-4128-45A7-B39C-106B08373EDD}

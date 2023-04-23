@@ -1,6 +1,5 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Moq.Protected;
 using MPay.Abstractions.FeatureFlags;
 using MPay.Infrastructure.Webhooks;

@@ -1,4 +1,3 @@
-using Moq;
 using MPay.Abstractions.Events;
 using MPay.Infrastructure.Events;
 

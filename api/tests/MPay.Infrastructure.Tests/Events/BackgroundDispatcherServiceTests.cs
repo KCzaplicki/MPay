@@ -1,7 +1,5 @@
-using AutoBogus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using MPay.Abstractions.Events;
 using MPay.Infrastructure.Events;
 using MPay.Tests.Shared.Common;

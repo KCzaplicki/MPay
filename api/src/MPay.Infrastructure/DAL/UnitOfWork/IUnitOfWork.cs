@@ -2,5 +2,5 @@
 
 internal interface IUnitOfWork
 {
-    Task<T> ExecuteAsync<T>(Func<Task<T>> action);
+    Task<T> ExecuteAsync<T>(Func<Task<T>> executeExpression);
 }

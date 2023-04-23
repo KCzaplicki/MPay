@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Moq;
 using MPay.Abstractions.FeatureFlags;
 using MPay.Core.Configurations;
 using MPay.Core.Services;

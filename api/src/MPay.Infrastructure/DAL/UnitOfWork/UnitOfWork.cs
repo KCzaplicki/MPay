@@ -9,13 +9,13 @@ internal class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
+    public async Task<T> ExecuteAsync<T>(Func<Task<T>> executeExpression)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
 
         try
         {
-            var result = await action();
+            var result = await executeExpression();
             await transaction.CommitAsync();
 
             return result;

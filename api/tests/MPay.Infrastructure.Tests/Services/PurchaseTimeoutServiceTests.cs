@@ -65,7 +65,7 @@ public class PurchaseTimeoutServiceTests
     }
 
     [Fact]
-    public void ExecuteAsync_ThrowsArgumentException_WhenFeatureFlagsServiceNotRegistered()
+    public async Task ExecuteAsync_ThrowsArgumentException_WhenFeatureFlagsServiceNotRegistered()
     {
         // Arrange
         var serviceProvider = MockServiceProviderFactory.Create();
@@ -76,11 +76,11 @@ public class PurchaseTimeoutServiceTests
         Func<Task> startAsyncTask = async () => await purchaseTimeoutService.StartAsync(CancellationToken.None);
         
         // Assert
-        startAsyncTask.Should().ThrowAsync<ArgumentException>();
+        await startAsyncTask.Should().ThrowAsync<ArgumentException>();
     }
     
     [Fact]
-    public void ExecuteAsync_ThrowsArgumentException_WhenPurchaseTimeoutHandlerNotRegistered()
+    public async Task ExecuteAsync_ThrowsArgumentException_WhenPurchaseTimeoutHandlerNotRegistered()
     {
         // Arrange
         var featureFlagsService = CreateMockFeatureFlagsService();
@@ -95,7 +95,7 @@ public class PurchaseTimeoutServiceTests
         Func<Task> startAsyncTask = async () => await purchaseTimeoutService.StartAsync(CancellationToken.None);
         
         // Assert
-        startAsyncTask.Should().ThrowAsync<ArgumentException>();
+        await startAsyncTask.Should().ThrowAsync<ArgumentException>();
     }
     
     private static IOptions<PurchaseTimeoutOptions> CreatePurchaseTimeoutOptions(int intervalInSeconds = 0)

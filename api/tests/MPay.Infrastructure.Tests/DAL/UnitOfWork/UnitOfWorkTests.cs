@@ -1,4 +1,3 @@
-using MPay.Core.Entities;
 using MPay.Infrastructure.DAL;
 using MPay.Tests.Shared.DAL;
 using UnitOfWorkService = MPay.Infrastructure.DAL.UnitOfWork.UnitOfWork;
@@ -38,6 +37,6 @@ public class UnitOfWorkTests
         Func<Task<bool>> unitOfWorkAction = async () => await unitOfWork.ExecuteAsync<bool>(async () => throw new Exception());
         
         // Assert
-        unitOfWorkAction.Should().ThrowAsync<Exception>();
+        await unitOfWorkAction.Should().ThrowAsync<Exception>();
     }
 }

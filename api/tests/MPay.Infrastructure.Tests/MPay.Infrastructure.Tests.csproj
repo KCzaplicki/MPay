@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ErrorHandling" />
       <Folder Include="Validation" />
     </ItemGroup>
 

@@ -4,6 +4,8 @@ namespace MPay.Infrastructure.ErrorHandling;
 
 internal class ErrorHandlerMiddleware : IMiddleware
 {
+    private const string ErrorContentType = "application/problem+json";
+    
     private readonly IExceptionMapper _mapper;
 
     public ErrorHandlerMiddleware(IExceptionMapper mapper)
@@ -28,7 +30,8 @@ internal class ErrorHandlerMiddleware : IMiddleware
         var response = context.Response;
         var errorDetails = _mapper.Map(exception);
         response.StatusCode = errorDetails.Status.Value;
-
+        
         await response.WriteAsJsonAsync(errorDetails);
+        response.ContentType = ErrorContentType;
     }
 }

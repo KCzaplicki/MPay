@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MPay.Infrastructure.DAL.UnitOfWork;
+using ContextFactory = MPay.Tests.Shared.Common.MockEndpointFilterInvocationContextFactory;
+using NextFactory = MPay.Tests.Shared.Common.MockEndpointFilterDelegateFactory;
 
 namespace MPay.Infrastructure.Tests.DAL.UnitOfWork;
 
@@ -18,8 +20,8 @@ public class TransactionalEndpointFilterTests
     {
         // Arrange
         var actionExecuted = false;
-        var context = new Mock<EndpointFilterInvocationContext>();
-        var mockNext = CreateMockEndpointFilterDelegate();
+        var context = ContextFactory.Create();
+        var mockNext = NextFactory.Create();
         var mockUnitOfWork = CreateMockUnitOfWork(() => actionExecuted = true);
         var transactionalEndpointFilter = new TransactionalEndpointFilter(mockUnitOfWork.Object, _logger);
         
@@ -36,8 +38,8 @@ public class TransactionalEndpointFilterTests
     public async Task InvokeAsync_ReThrowsException()
     {
         // Arrange
-        var context = new Mock<EndpointFilterInvocationContext>();
-        var mockNext = CreateMockEndpointFilterDelegate();
+        var context = ContextFactory.Create();
+        var mockNext = NextFactory.Create();
         var mockUnitOfWork = CreateMockUnitOfWork(() => throw new Exception());
         var transactionalEndpointFilter = new TransactionalEndpointFilter(mockUnitOfWork.Object, _logger);
         
@@ -49,13 +51,6 @@ public class TransactionalEndpointFilterTests
         mockUnitOfWork.Verify(u => u.ExecuteAsync(It.IsAny<Func<Task<object?>>>()), Times.Once);
     }
 
-    private static Mock<EndpointFilterDelegate> CreateMockEndpointFilterDelegate()
-    {
-        var endpointFilterDelegate = new Mock<EndpointFilterDelegate>();
-        endpointFilterDelegate.Setup(f => f.Invoke(It.IsAny<EndpointFilterInvocationContext>())).ReturnsAsync(new object());
-        return endpointFilterDelegate;
-    }
-    
     private static Mock<IUnitOfWork> CreateMockUnitOfWork(Action afterExecuteAction)
     {
         var mockUnitOfWork = new Mock<IUnitOfWork>();

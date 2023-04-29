@@ -20,8 +20,4 @@
         <ProjectReference Include="..\MPay.Tests.Shared\MPay.Tests.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Validation" />
-    </ItemGroup>
-
 </Project>

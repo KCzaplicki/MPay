@@ -50,3 +50,6 @@ app.MapAPIEndpoints();
 app.MapPurchaseEndpoints();
 
 app.Run();
+
+// Program partial class added for integration tests purposes
+public partial class Program { }

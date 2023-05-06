@@ -33,7 +33,7 @@ internal class PurchaseService : IPurchaseService
         var purchase = _purchaseFactory.Create(addPurchaseDto);
         await _purchaseRepository.AddAsync(purchase);
 
-        _asyncEventDispatcher.PublishAsync(new PurchaseCreated(purchase.Id, purchase.CreatedAt));
+        await _asyncEventDispatcher.PublishAsync(new PurchaseCreated(purchase.Id, purchase.CreatedAt));
 
         return purchase.Id;
     }
@@ -58,7 +58,7 @@ internal class PurchaseService : IPurchaseService
         purchase.Status = PurchaseStatus.Cancelled;
         purchase.CompletedAt = _clock.Now;
 
-        _asyncEventDispatcher.PublishAsync(new PurchaseCancelled(purchase.Id, purchase.CompletedAt.Value));
+        await _asyncEventDispatcher.PublishAsync(new PurchaseCancelled(purchase.Id, purchase.CompletedAt.Value));
 
         await _purchaseRepository.UpdateAsync(purchase);
     }

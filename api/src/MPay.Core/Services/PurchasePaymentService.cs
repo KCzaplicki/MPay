@@ -53,7 +53,7 @@ internal class PurchasePaymentService : IPurchasePaymentService
             purchase.Status = PurchaseStatus.Completed;
             await _purchaseRepository.UpdateAsync(purchase);
 
-            _asyncEventDispatcher.PublishAsync(new PurchaseCompleted(purchase.Id, purchase.CompletedAt.Value));
+            await _asyncEventDispatcher.PublishAsync(new PurchaseCompleted(purchase.Id, purchase.CompletedAt.Value));
         }
 
         return new PurchasePaymentResultDto(purchase.Id, purchasePayment.Id, purchasePayment.Status);

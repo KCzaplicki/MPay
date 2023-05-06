@@ -39,7 +39,7 @@ internal class PurchaseTimeoutHandler : IPurchaseTimeoutHandler
                 await _purchaseRepository.UpdateAsync(pendingPurchase);
                 timedOutPurchases++;
 
-                _asyncEventDispatcher.PublishAsync(new PurchaseTimeout(pendingPurchase.Id,
+                await _asyncEventDispatcher.PublishAsync(new PurchaseTimeout(pendingPurchase.Id,
                     pendingPurchase.CompletedAt.Value));
             }
         }

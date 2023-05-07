@@ -14,23 +14,23 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MPay.Infrastructure\MPay.Infrastructure.csproj"/>
+        <ProjectReference Include="..\MPay.Infrastructure\MPay.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Logs\**"/>
+        <Compile Remove="Logs\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="Logs\**"/>
+        <EmbeddedResource Remove="Logs\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Logs\**"/>
+        <None Remove="Logs\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="Logs\**"/>
+        <Content Remove="Logs\**" />
     </ItemGroup>
 
 </Project>

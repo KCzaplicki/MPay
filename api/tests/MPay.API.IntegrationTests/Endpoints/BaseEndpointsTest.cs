@@ -1,15 +1,23 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MPay.Infrastructure.DAL;
 
 namespace MPay.API.IntegrationTests.Endpoints;
 
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public abstract class BaseEndpointsTest : IClassFixture<WebApplicationFactory<Program>>
 {
+    private const string IntegrationTestsEnvironmentName = "Testing";
+    
     protected readonly WebApplicationFactory<Program> Factory;
 
     protected BaseEndpointsTest(WebApplicationFactory<Program> factory)
     {
-        Factory = factory;
+        Factory = factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.UseEnvironment(IntegrationTestsEnvironmentName);
+            });
     }
     
     protected async Task InitializeDatabaseAsync(params object[] entities)

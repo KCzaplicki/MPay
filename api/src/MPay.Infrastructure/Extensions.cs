@@ -11,6 +11,7 @@ using MPay.Infrastructure.Services;
 using Serilog;
 
 [assembly: InternalsVisibleTo("MPay.Api")]
+[assembly: InternalsVisibleTo("MPay.Api.IntegrationTests")]
 [assembly: InternalsVisibleTo("MPay.Core.Tests")]
 [assembly: InternalsVisibleTo("MPay.Infrastructure.Tests")]
 [assembly: InternalsVisibleTo("MPay.Tests.Shared")]

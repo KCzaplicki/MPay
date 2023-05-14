@@ -107,6 +107,8 @@ Set configuration for webhooks url to `http://YOUR_WEBHOOK_URL`.
 - /Logs - Logs directory used by the MPay, contains logs in *.txt format grouped by the date
 
 ## Workflow
+Purchase workflow should guide you safely through all possible purchase states with the triggers that activates them.
+![MPay - purchase workflow](https://github.com/KCzaplicki/MPay/blob/main/docs/mpay-purchase-workflow.png?raw=true)
 
 ## Endpoints
 Here is the list of you get all the possible options to explore MPay API. 

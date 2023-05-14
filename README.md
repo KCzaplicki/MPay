@@ -1,7 +1,14 @@
 # MPay
+[![Version](https://img.shields.io/docker/v/krystianczaplicki/mpay/latest?arch=arm64)](https://hub.docker.com/r/krystianczaplicki/mpay)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/krystianczaplicki/mpay/latest)
+![GitHub issues](https://img.shields.io/github/issues/KCzaplicki/mpay)
+![GitHub](https://img.shields.io/github/license/kczaplicki/mpay)
+
 MPay is a lightweight and customizable mock service that emulates a real payment gateway. It enables developers to test payment integration without actual financial transactions in a development or testing environment.
 
-Image TBA
+![MPay - architecture overview](https://raw.githubusercontent.com/KCzaplicki/MPay/fe0d8ce3b6c7f62fd2c7537c18e93a6b62f17c41/docs/mpay-architecture-overview.svg)
+
+[Jump to quick start](#quick-start)
 
 ## About
 MPay is a lightweight and versatile solution designed to simulate payment gateway functionality in a development or testing environment. It provides a reliable and customizable mock service that emulates the behavior and responses of a real payment gateway, allowing developers to test their applications payment integration without making actual financial transactions.

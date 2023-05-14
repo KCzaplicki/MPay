@@ -8,7 +8,46 @@ MPay is a lightweight and customizable mock service that emulates a real payment
 
 ![MPay - architecture overview](https://github.com/KCzaplicki/MPay/blob/main/docs/mpay-architecture-overview.png?raw=true)
 
-[Jump to quick start](#quick-start)
+## Getting started
+### Setup
+Get docker image from docker hub
+```
+docker pull krystianczaplicki/mpay
+```
+
+Start docker container with mpay image
+```
+docker run -it -p 5000:80 -e Webhooks__Url=http://YOUR_WEBHOOK_URL krystianczaplicki/mpay
+```
+Replace `YOUR_WEBHOOK_URL` with the url on which you want to get purchase updates i.e. http://localhost:5001/api/hooks/payment
+
+🎉 **Configratulations!**  Your MPay service is ready. 🚀
+
+Now you can follow next section to prepare webhook consumer or jump to [workflow](#workflow) section to create your first purchase. 
+
+### Consume webhook requests
+
+On the webhook url provided in [setup](#setup) section you will recieve http requests with purchase updates.
+
+Webhook http requests are **POST** type with following paylaod:
+
+```
+{
+    "id": "string", // Purchase guid
+    "status": number, // Purchase status
+    "updatedAt": date // Update date
+}
+```
+
+Purchase status can be one of these
+|Name|Value|Description|
+|-|-|-|
+|Created|1|Purchase created, waiting for payment|
+|Completed|2|Purchase paid by the user|
+|Cancelled|3|Purchase cancelled by the user|
+|Timeout|4|Purchase has exceeded its lifetime and has been withdrawn by the system|
+
+You can find more about purchase statuses on [workflow](#workflow) section.
 
 ## About
 MPay is a lightweight and versatile solution designed to simulate payment gateway functionality in a development or testing environment. It provides a reliable and customizable mock service that emulates the behavior and responses of a real payment gateway, allowing developers to test their applications payment integration without making actual financial transactions.
@@ -24,8 +63,6 @@ MPay is a lightweight and versatile solution designed to simulate payment gatewa
 - **Realistic testing environment:** By utilizing MPay developers can create a realistic and controlled testing environment, reducing the need for reliance on external payment gateways during the development and testing phases.
 
 - **Secure and private:** As a self-contained mock service, MPay ensures that sensitive payment information is not transmitted or stored, providing an added layer of security during development and testing activities.
-
-## Quick start
 
 ## Configuration
 

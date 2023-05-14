@@ -6,7 +6,7 @@
 
 MPay is a lightweight and customizable mock service that emulates a real payment gateway. It enables developers to test payment integration without actual financial transactions in a development or testing environment.
 
-![MPay - architecture overview](https://raw.githubusercontent.com/KCzaplicki/MPay/fe0d8ce3b6c7f62fd2c7537c18e93a6b62f17c41/docs/mpay-architecture-overview.svg)
+![MPay - architecture overview](https://github.com/KCzaplicki/MPay/blob/main/docs/mpay-architecture-overview.png?raw=true)
 
 [Jump to quick start](#quick-start)
 

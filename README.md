@@ -147,7 +147,7 @@ Purchase Endpoints
 Purchase Payment Endpoints
 |Url|Payload|Description|
 |-|-|-|
-|/purchases/{id}/payment|{<br/>&emsp;"cardHolderName": “string,<br/>&emsp;"cardNumber": number,<br/>&emsp;"ccv": number,<br/>&emsp;"cardExpiry": date<br/>}|Purchase payment endpoint, returns 200 - http status OK no matter if payment passed or not|
+|POST /purchases/{id}/payment|{<br/>&emsp;"cardHolderName": “string,<br/>&emsp;"cardNumber": number,<br/>&emsp;"ccv": number,<br/>&emsp;"cardExpiry": date<br/>}|Purchase payment endpoint, returns 200 - http status OK no matter if payment passed or not|
 
 To mock different purchase payment paths you have to set specific card number in purchase payment payload.
 |Path|Card number|Description|

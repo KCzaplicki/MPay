@@ -109,5 +109,52 @@ Set configuration for webhooks url to `http://YOUR_WEBHOOK_URL`.
 ## Workflow
 
 ## Endpoints
+Here is the list of you get all the possible options to explore MPay API. 
 
-## Solution structure
+Have fun playing with it! 🏄
+
+### Swagger
+You can explore MPay endpoints with swagger on development mode. Set `Environment` to `Development` to enable it.
+```
+docker run -it -p 5000:80 -e ASPNETCORE_ENVIRONMENT=Development krystianczaplicki/mpay
+```
+Swagger is available on route http://localhost:5000/swagger.
+
+### REST Client
+MPay supports explore API with [REST Client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) for Visual Studio Code.
+
+API Requests are in [MPay.rest](https://github.com/KCzaplicki/MPay/blob/main/api/src/MPay.API/MPay.rest) file, open it in Visual Studio Code.
+
+Don't forget to set proper `@url` value before you start making requests.
+
+### API Docs
+You can explore MPay API endpoints from manual documentation.
+
+API Endpoints
+|Url|Response|Description|
+|-|-|-|
+|GET /|MPay API|API Footprint for quick check if it's up and ready|
+|GET /heathz|Healthy / Unhealthy|Healthcheck endpoint for other services to check API status|
+|GET /configuration|{<br/>&emsp;"webhooks": boolean,<br/>&emsp;"purchaseTimeout": boolean<br/>}|Configuration endpoint to get current MPay feature flags configurations|
+
+Purchase Endpoints
+|Url|Payload|Response|Description|
+|-|-|-|-|
+|POST /purchases|{<br/>&emsp;"name": "string",<br/>&emsp;"description": "string",<br/>&emsp;"price": decimal,<br/>&emsp;"currency": "string"<br/>}|Purchase Id (Guid)|Create purchase endpoint, returns purchase Id| 
+|GET /purchases/{id}|-|{<br/>&emsp;"id": "string",<br/>&emsp;"name": "string",<br/>&emsp;"description": "string",<br/>&emsp;"createdAt": date,<br/>&emsp;"price": decimal,<br/>&emsp;"currency": "string"<br/>}|Get purchase by Id, if purchase is not in pending status it will return 404 - not found http status|
+|POST /purchases/{id}/cancel|-|-|Cancel purchase endpoint, returns 204 no matter if purchase is cancelled or state not changed|
+
+Purchase Payment Endpoints
+|Url|Payload|Description|
+|-|-|-|
+|/purchases/{id}/payment|{<br/>&emsp;"cardHolderName": “string,<br/>&emsp;"cardNumber": number,<br/>&emsp;"ccv": number,<br/>&emsp;"cardExpiry": date<br/>}|Purchase payment endpoint, returns 200 - http status OK no matter if payment passed or not|
+
+To mock different purchase payment paths you have to set specific card number in purchase payment payload.
+|Path|Card number|Description|
+|-|-|-|
+|Invalid card|Card number ends with **1**|Purchase stay in pending state, failed payment data noted|
+|No funds|Card number ends with **2**|Purchase stay in pending state, failed payment data noted|
+|Timeout|Card number ends with **3**|Purchase stay in pending state, failed payment data noted|
+|Payment passed|Card number ends with anything higher than 3, i.e. **4** or **5**|Payment completed successfully, webhook request sent|
+
+<br/>Don't forget that payloads will be validated. You can find validation in [Validators](https://github.com/KCzaplicki/MPay/tree/main/api/src/MPay.Core/Validators) directory.
